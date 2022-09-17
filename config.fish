@@ -8,5 +8,5 @@ alias lt='lsd --tree'
 alias cat='bat'
 
 figlet fish -c | lolcat
-colorscript -r
+#colorscript -r
 #starship init fish | source
