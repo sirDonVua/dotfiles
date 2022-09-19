@@ -1,4 +1,5 @@
 #Export#
+set -U fish_greeting
 set -x EDITOR "vim"
 set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 #End#
