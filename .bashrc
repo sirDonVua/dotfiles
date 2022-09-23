@@ -32,6 +32,8 @@ shopt -s autocd        #change dir withou cd command
 shopt -s cdspell       #spellcheck for cd command
 shopt -s dotglob       #*.* will include hidden files
 
+## TAB COMLETION ##
+. /etc/bash.bashrc     #improve TAB comletion
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
 ## END ##
@@ -75,12 +77,12 @@ alias fishrc='$EDITOR $HOME/.config/fish/config.fish'
 if [ -d $HOME/.nix-profile  ] ;then
     . ~/.nix-profile/etc/profile.d/nix.sh
 	export XDG_DATA_DIRS=~/.local/share/:~/.nix-profile/share:/usr/share
-	if [ -d ~/.nix-profile/share/applications/ ] ;then
+	if [ -d $HOME/.nix-profile/share/applications/ ] ;then
         cp -f ~/.nix-profile/share/applications/*.desktop ~/.local/share/applications/
     fi
 fi
 ## END ##
 
-### AT LUANCH ###
+### FANCY STUFF ###
 eval "$(starship init bash)" #starship prompt
 figlet bash | lolcat

@@ -6,7 +6,7 @@ set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 ##alias##
 alias apt='sudo nala'
-alias pkgup='sudo nala upgrade ; deb-get update || echo "Done"'
+alias pkgup='sudo nala upgrade'
 alias fishrc="vim ~/.config/fish/config.fish"
 alias deb='deb-get'
 alias ls='lsd'
