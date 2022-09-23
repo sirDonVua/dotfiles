@@ -47,8 +47,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 ### ALIASES ###
 #package mnagers
 alias apt='sudo nala'
-alias deb='deb-get'
-alias up='apt upgrade'
+alias aptup='sudo nala upgrade'
 alias deb='deb-get'
 alias nix='nix-env'
 
