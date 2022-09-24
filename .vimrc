@@ -13,15 +13,16 @@ set autoread
 "set leader key
 let mapleader = ","
 
-"saving
-nmap <leader>w :w<cr>
-
 "save the current file as sudo
 command! Su execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 "do not make a swapfile for avoiding some problems
 set noswapfile
 set nobackup nowb "just use git
+
+"improve speed when hitting <Esc>
+set ttimeout		" time out for key codes
+set ttimeoutlen=100
 
 "----------------------------------------
 "=> UI and Visual Stuff
@@ -82,6 +83,13 @@ Plug 'dracula/vim', { 'as': 'dracula' } "dracula theme
 call plug#end()
 
 "plugins configure
+
+"liteline
+set noshowmode
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'darcula',
+      \ }
 
 "vifm
 map <leader>v :Vifm<cr>
