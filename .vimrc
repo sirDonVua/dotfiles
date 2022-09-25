@@ -34,7 +34,7 @@ set tabstop=4 softtabstop=4 "tab= 4spaces
 set expandtab "use spaces instead of tabs
 set smarttab  "well you guest it be smart when tabbing
 set shiftwidth=4
-set wrap
+set nowrap
 set smartindent autoindent "indentation
 
 "for better scrolling or j/k Movement
