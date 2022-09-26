@@ -74,15 +74,19 @@ set encoding=utf8
 
 call plug#begin()
 
+Plug 'mhinz/vim-startify' "startpage
 Plug 'itchyny/lightline.vim' "a lite status bar
-Plug 'vifm/vifm.vim'
-Plug 'suan/vim-instant-markdown', {'rtp': 'after'} " Markdown Preview
+Plug 'vifm/vifm.vim' "vi file manger
+Plug 'jreybert/vimagit' "git client
 Plug 'vimwiki/vimwiki'
 Plug 'dracula/vim', { 'as': 'dracula' } "dracula theme
 
 call plug#end()
 
-"plugins configure
+"=> plugins configure
+
+"startify
+map <leader>h :Startify<cr>
 
 "liteline
 set noshowmode
@@ -93,6 +97,9 @@ let g:lightline = {
 
 "vifm
 map <leader>v :Vifm<cr>
+
+"vimagit
+map <leader>m :MagitOnly<cr>
 
 "vimwiki
 let g:vimwiki_list = [{'path': '~/vimwiki/',
