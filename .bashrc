@@ -22,12 +22,13 @@ shopt -s checkwinsize  #change rows and coulmns sizes after each command if need
 shopt -s histappend    #append do not overwrite 
 shopt -s cmdhist       #multiline commans saved as 1 line in history
 #shopt -s globstar
-shopt -s autocd        #change dir withou cd command
+shopt -s autocd        #change dir witout cd command
 shopt -s cdspell       #spellcheck for cd command
 shopt -s dotglob       #*.* will include hidden files
 
 ## TAB COMLETION ##
-. /etc/bash.bashrc     #improve TAB comletion
+. /usr/share/bash-completion/bash_completion || \
+    . /etc/bash_completion
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
 ## END ##
@@ -49,8 +50,8 @@ alias nix='nix-env'
 
 #lsd as ls
 alias ls='lsd'
-alias ll='ls -alF'
-alias la='ls -A'
+alias ll='lsd -alF'
+alias la='lsd -A'
 alias lt='lsd --tree'
 
 #bat as cat & mkdir parent and childs
