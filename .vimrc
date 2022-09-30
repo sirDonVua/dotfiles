@@ -79,6 +79,7 @@ Plug 'itchyny/lightline.vim' "a lite status bar
 Plug 'vifm/vifm.vim' "vi file manger
 Plug 'jreybert/vimagit' "git client
 Plug 'vimwiki/vimwiki'
+Plug 'christoomey/vim-system-copy' "access to system clipboard
 Plug 'dracula/vim', { 'as': 'dracula' } "dracula theme
 
 call plug#end()
