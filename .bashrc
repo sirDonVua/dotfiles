@@ -8,14 +8,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# => checks for neded packages
-
 # => History variables 
 HISTCONTROL=ignoreboth #no duplicante and commands start with spaces
 HISTSIZE=1000          #history size
 HISTFILESIZE=2000      #~/.bash_history file size
-
-
 
 # => shopt
 shopt -s checkwinsize  #change rows and coulmns sizes after each command if needed
@@ -32,7 +28,6 @@ shopt -s dotglob       #*.* will include hidden files
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
 
-
 # => exports
 export TERM="xterm-256color"     # getting proper colors
 
@@ -41,7 +36,6 @@ export TERM="xterm-256color"     # getting proper colors
 
 [[ -f /usr/bin/bat ]]  && \
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
 
 # => Aliasis
 #package mnagers
@@ -72,7 +66,6 @@ alias rm='rm -ir'
 #config files
 alias bashrc='$EDITOR $HOME/.bashrc && . $HOME/.bashrc'
 alias fishrc='$EDITOR $HOME/.config/fish/config.fish'
-
 
 # => NIX package manager
 [[ -d $HOME/.nix-profile  ]] && \
