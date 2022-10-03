@@ -32,7 +32,7 @@ bind "set completion-ignore-case on"
 export TERM="xterm-256color"     # getting proper colors
 
 [[ -f /usr/bin/vim ]]  && \
-    export EDITOR="vim"
+    export EDITOR="vim" || export EDITOR='nano'
 
 [[ -f /usr/bin/bat ]]  && \
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -76,7 +76,7 @@ alias fishrc='$EDITOR $HOME/.config/fish/config.fish'
 
 # => Fancy Stuff
 [[ -f /usr/local/bin/starship ]] && eval "$(starship init bash)" || \
-    PS1='[\u@\h \W]\$ '
+    PS1='\u@ \W ~~> '
 
 [[ -f /usr/bin/figlet && /usr/games/lolcat ]] && \
     figlet bash | lolcat
