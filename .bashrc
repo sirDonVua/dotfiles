@@ -31,53 +31,59 @@ shopt -s dotglob       #*.* will include hidden files
     . /etc/bash_completion
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
-## END ##
 
 
-### EXPORT ###
+# => exports
 export TERM="xterm-256color"     # getting proper colors
-export EDITOR="vim"
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-## END ##
+
+[[ -f /usr/bin/vim ]]  && \
+    export EDITOR="vim"
+
+[[ -f /usr/bin/bat ]]  && \
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 
-### ALIASES ###
+# => Aliasis
 #package mnagers
-alias apt='sudo nala'
-alias aptup='sudo nala upgrade'
+[[ -f /usr/bin/nala ]] && alias apt='sudo nala' || \ 
+    alias apt='sudo apt'
+
+[[ -f /usr/bin/nala ]] && alias aptup='sudo nala upgrade' || \
+    alias aptup='sudo apt update && sudo apt upgrade'
+
 alias deb='deb-get'
 alias nix='nix-env'
 
 #lsd as ls
-alias ls='lsd'
-alias ll='lsd -alF'
-alias la='lsd -A'
-alias lt='lsd --tree'
+[[ -f /usr/bin/lsd ]]  && alias ls='lsd' && alias lt='lsd --tree'|| \
+    alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
 
 #bat as cat & mkdir parent and childs
-alias cat='bat'
+[[ -f /usr/bin/bat ]] && alias cat='bat'
 alias mkdir='mkdir -pv'
 
 #files and dir
-alias cp='cp -r'
-alias rm='rm -r'
+alias cp='cp -ir'
+alias mv='mv -i '
+alias rm='rm -ir'
 
 #config files
 alias bashrc='$EDITOR $HOME/.bashrc && . $HOME/.bashrc'
 alias fishrc='$EDITOR $HOME/.config/fish/config.fish'
-## END ##
 
 
-### NIX ###
-if [ -d $HOME/.nix-profile  ] ;then
+# => NIX package manager
+[[ -d $HOME/.nix-profile  ]] && \
     . ~/.nix-profile/etc/profile.d/nix.sh
-	export XDG_DATA_DIRS=~/.local/share/:~/.nix-profile/share:/usr/share
-	if [ -d $HOME/.nix-profile/share/applications/ ] ;then
+	export XDG_DATA_DIRS=~/.local/share/:~/.nix-profile/share:/usr/share && \
+	[[ -d $HOME/.nix-profile/share/applications/ ]] && \
         cp -f ~/.nix-profile/share/applications/*.desktop ~/.local/share/applications/
-    fi
-fi
-## END ##
 
-### FANCY STUFF ###
-eval "$(starship init bash)" #starship prompt
-figlet bash | lolcat
+# => Fancy Stuff
+[[ -f /usr/local/bin/starship ]] && eval "$(starship init bash)" || \
+    PS1='[\u@\h \W]\$ '
+
+[[ -f /usr/bin/figlet && /usr/games/lolcat ]] && \
+    figlet bash | lolcat
