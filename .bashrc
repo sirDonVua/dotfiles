@@ -45,7 +45,7 @@ export TERM="xterm-256color"     # getting proper colors
 
 # => Aliasis
 #package mnagers
-[[ -f /usr/bin/nala ]] && alias apt='sudo nala' || \ 
+[[ -f /usr/bin/nala ]] && alias apt='sudo nala' || \
     alias apt='sudo apt'
 
 [[ -f /usr/bin/nala ]] && alias aptup='sudo nala upgrade' || \
