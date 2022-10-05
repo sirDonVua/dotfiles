@@ -31,31 +31,31 @@ bind "set completion-ignore-case on"
 # => exports
 export TERM="xterm-256color"     # getting proper colors
 
-[[ -f /usr/bin/vim ]]  && \
+command -v vim > /dev/null && \
     export EDITOR="vim" || export EDITOR='nano'
 
-[[ -f /usr/bin/bat ]]  && \
+command -v bat > /dev/null && \
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # => Aliasis
 #package mnagers
-[[ -f /usr/bin/nala ]] && alias apt='sudo nala' || \
+command -v nala > /dev/null && alias apt='sudo nala' || \
     alias apt='sudo apt'
 
-[[ -f /usr/bin/nala ]] && alias aptup='sudo nala upgrade' || \
+command -v nala > /dev/null && alias aptup='sudo nala upgrade' || \
     alias aptup='sudo apt update && sudo apt upgrade'
 
 alias deb='deb-get'
 alias nix='nix-env'
 
 #lsd as ls
-[[ -f /usr/bin/lsd ]]  && alias ls='lsd' && alias lt='lsd --tree'|| \
+command -v lsd > /dev/null && alias ls='lsd' && alias lt='lsd --tree'|| \
     alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 
 #bat as cat & mkdir parent and childs
-[[ -f /usr/bin/bat ]] && alias cat='bat'
+command -v bat > /dev/null && alias cat='bat'
 alias mkdir='mkdir -pv'
 
 #files and dir
@@ -75,8 +75,8 @@ alias fishrc='$EDITOR $HOME/.config/fish/config.fish'
         cp -f ~/.nix-profile/share/applications/*.desktop ~/.local/share/applications/
 
 # => Fancy Stuff
-[[ -f /usr/local/bin/starship ]] && eval "$(starship init bash)" || \
+command -v starship > /dev/null && eval "$(starship init bash)" || \
     PS1='\u@ \W ~~> '
 
-[[ -f /usr/bin/figlet && /usr/games/lolcat ]] && \
+command -v figlet > /dev/null && command -v lolcat > /dev/null && \
     figlet bash | lolcat
