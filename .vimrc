@@ -107,3 +107,4 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 "dracula
 colorscheme dracula
+hi Normal guibg=NONE ctermbg=NONE "uses your terminal background instead
