@@ -45,6 +45,9 @@ command -v nala > /dev/null && alias apt='sudo nala' || \
 command -v nala > /dev/null && alias aptup='sudo nala upgrade' || \
     alias aptup='sudo apt update && sudo apt upgrade'
 
+command -v aura > /dev/null && alias pacman='sudo aura' ||\
+    alias pacman='sudo pacman'
+
 alias deb='deb-get'
 alias nix='nix-env'
 
