@@ -4,7 +4,6 @@
 #     _| |_) | (_| \__ \ | | | | | (__
 #    (_)_.__/ \__,_|___/_| |_|_|  \___|
 
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -22,11 +21,13 @@ shopt -s autocd        #change dir witout cd command
 shopt -s cdspell       #spellcheck for cd command
 shopt -s dotglob       #*.* will include hidden files
 
-# => tab completion
-. /usr/share/bash-completion/bash_completion || \
-    . /etc/bash_completion
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
+
+# => Use bash-completion, if available
+
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
 
 # => exports
 export TERM="xterm-256color"     # getting proper colors
