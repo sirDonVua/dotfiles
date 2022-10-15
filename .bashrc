@@ -11,23 +11,24 @@
 HISTCONTROL=ignoreboth #no duplicante and commands start with spaces
 HISTSIZE=1000          #history size
 HISTFILESIZE=2000      #~/.bash_history file size
+#-----------------------------------------------
 
 # => shopt
 shopt -s checkwinsize  #change rows and coulmns sizes after each command if needed
 shopt -s histappend    #append do not overwrite 
 shopt -s cmdhist       #multiline commans saved as 1 line in history
-#shopt -s globstar
 shopt -s autocd        #change dir witout cd command
 shopt -s cdspell       #spellcheck for cd command
 shopt -s dotglob       #*.* will include hidden files
+#-----------------------------------------------
 
 #ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
 
 # => Use bash-completion, if available
-
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
+#-----------------------------------------------
 
 # => exports
 export TERM="xterm-256color"     # getting proper colors
@@ -57,6 +58,7 @@ command -v lsd > /dev/null && alias ls='lsd' && alias lt='lsd --tree'|| \
     alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
+#-----------------------------------------------
 
 #bat as cat & mkdir parent and childs
 command -v bat > /dev/null && alias cat='bat'
@@ -84,3 +86,4 @@ command -v starship > /dev/null && eval "$(starship init bash)" || \
 
 command -v figlet > /dev/null && command -v lolcat > /dev/null && \
     figlet bash | lolcat
+#-----------------------------------------------
