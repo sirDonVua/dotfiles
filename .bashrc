@@ -34,45 +34,45 @@ export TERM="xterm-256color"     # getting proper colors
 
 export LESS='-R --use-color -Dd+r$Du+b'
 
-command -q vim && \
+[ -x "$(command -v  vim)" ] && \
     export EDITOR="vim" || export EDITOR='nano'
 
-command -q bat && \
+[ -x "$(command -v  bat)" ] && \
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # => Aliasis
 #package mnagers
-command -q nala && alias apt='sudo nala' && \
+[ -x "$(command -v nala)" ] && alias apt='sudo nala' && \
     alias aptup='sudo nala upgrade'
 
-! command -q nala && alias apt='sudo apt' || \
+! [ -x "$(command -v nala)" ] && alias apt='sudo apt' || \
     alias aptup='sudo apt update && sudo apt upgrade'
 
-command -q aura && alias pacman='sudo aura' ||\
+[ -x "$(command -v aura)" ] && alias pacman='sudo aura' ||\
     alias pacman='sudo pacman'
 
 #lsd as ls
-command -q lsd && alias ls='lsd -lAh'  \
+[ -x "$(command -v lsd)" ] && alias ls='lsd -lAh' || \
     alias ls='ls -lAh --color=auto'
 
 #bat as cat
-command -q bat && alias cat='bat'
+[ -x "$(command -v bat)" ] && alias cat='bat'
 
 #files and dir
-alias cp=    'cp -ir'
-alias mv=    'mv -i '
-alias rm=    'rm -i'
-alias rmdir= 'rm -r'
-alias mkdir= 'mkdir -pv'
+alias cp='cp -ir'
+alias mv='mv -i '
+alias rm='rm -i'
+alias rmdir='rm -r'
+alias mkdir='mkdir -pv'
 
 #grep
 alias grep="grep --color=auto"
 #-----------------------------------------------
 
 # => Fancy Stuff
-command -q starship && eval "$(starship init bash)" || \
+[ -x "$(command -v starship)" ] && eval "$(starship init bash)" || \
     PS1='\u@ \W ~~> '
 
-command -q figlet && command -q lolcat && \
+[ -x "$(command -v figlet)" ] && [ -x "$(command -v  lolcat)"] && \
     figlet bash | lolcat
 #-----------------------------------------------
