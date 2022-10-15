@@ -50,9 +50,6 @@ command -v nala > /dev/null && alias aptup='sudo nala upgrade' || \
 command -v aura > /dev/null && alias pacman='sudo aura' ||\
     alias pacman='sudo pacman'
 
-alias deb='deb-get'
-alias nix='nix-env'
-
 #lsd as ls
 command -v lsd > /dev/null && alias ls='lsd' && alias lt='lsd --tree'|| \
     alias ls='ls --color=auto'
@@ -69,16 +66,9 @@ alias cp='cp -ir'
 alias mv='mv -i '
 alias rm='rm -ir'
 
-#config files
-alias bashrc='$EDITOR $HOME/.bashrc && . $HOME/.bashrc'
-alias fishrc='$EDITOR $HOME/.config/fish/config.fish'
-
-# => NIX package manager
-[[ -d $HOME/.nix-profile  ]] && \
-    . ~/.nix-profile/etc/profile.d/nix.sh
-	export XDG_DATA_DIRS=~/.local/share/:~/.nix-profile/share:/usr/share && \
-	[[ -d $HOME/.nix-profile/share/applications/ ]] && \
-        cp -f ~/.nix-profile/share/applications/*.desktop ~/.local/share/applications/
+#grep
+alias grep="grep --color=auto"
+#-----------------------------------------------
 
 # => Fancy Stuff
 command -v starship > /dev/null && eval "$(starship init bash)" || \
