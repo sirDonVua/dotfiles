@@ -92,13 +92,18 @@ Plug 'mhinz/vim-startify' "startpage
 Plug 'itchyny/lightline.vim' "a lite status bar
 Plug 'vifm/vifm.vim' "vi file manger
 Plug 'jreybert/vimagit' "git client
-Plug 'vimwiki/vimwiki'
 Plug 'christoomey/vim-system-copy' "access to system clipboard
+Plug 'dylanaraps/wal.vim'
 Plug 'dracula/vim', { 'as': 'dracula' } "dracula theme
 
 call plug#end()
 
 "=> plugins configure
+
+"colorscheme
+colorscheme wal
+let &t_ut='' "fixing background disapperas when scrolling in kitty terminal
+"hi Normal guibg=NONE ctermbg=NONE "uses your terminal background instead
 
 "startify
 map <leader>h :Startify<cr>
@@ -106,20 +111,12 @@ map <leader>h :Startify<cr>
 "liteline
 set noshowmode
 set laststatus=2
-let g:lightline = {
-      \ 'colorscheme': 'darcula',
-      \ }
 
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ }
 "vifm
 map <leader>v :Vifm<cr>
 
 "vimagit
 map <leader>m :MagitOnly<cr>
-
-"vimwiki
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-"dracula
-colorscheme dracula
-let &t_ut='' "fixing background disapperas when scrolling in kitty terminal
-"hi Normal guibg=NONE ctermbg=NONE "uses your terminal background instead
