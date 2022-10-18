@@ -73,18 +73,16 @@ set encoding=utf8
 
 
 " => installing vim-plug
-
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 
 if empty(glob(data_dir . '/autoload/plug.vim'))
 
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 
 endif
+" <= ---------------
 
-"
 
 call plug#begin()
 
@@ -105,18 +103,27 @@ colorscheme wal
 let &t_ut='' "fixing background disapperas when scrolling in kitty terminal
 "hi Normal guibg=NONE ctermbg=NONE "uses your terminal background instead
 
-"startify
-map <leader>h :Startify<cr>
-
 "liteline
 set noshowmode
 set laststatus=2
-
 let g:lightline = {
       \ 'colorscheme': 'jellybeans',
       \ }
-"vifm
-map <leader>v :Vifm<cr>
 
+"----------------------------------------
+"=> Mapping
+"----------------------------------------
+"vifm
+map <leader>v  :Vifm<cr>
 "vimagit
-map <leader>m :MagitOnly<cr>
+map <leader>m  :MagitOnly<cr>
+"startify
+map <leader>h  :Startify<cr>
+"saving and existing
+map <leader>w  :w<cr>
+map <leader>q  :q<cr>
+map <leader>wq :wq<cr>
+"calling a shell in vim, in case i forget how to exit vim :)
+nmap <leader>s :shell<cr>
+"reloading vimrc
+nmap <leader>r :%source<cr>
