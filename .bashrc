@@ -30,39 +30,34 @@ shopt -s dotglob       #*.* will include hidden files
 #-----------------------------------------------
 
 # => exports
+source $HOME/.bashrc-func
+
 export TERM="xterm-256color"     # getting proper colors
+export LESS='-R --use-color -Dd+r$Du+b' # some colors in less
 
-export LESS='-R --use-color -Dd+r$Du+b'
-
-[ -x "$(command -v  vim)" ] && \
-    export EDITOR="vim" || export EDITOR='nano'
-
-[ -x "$(command -v  bat)" ] && \
-    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# isthere checks for a command if available 
+# read the source if you want to know more
+# setting an editor and a manpager
+isthere vim "export EDITOR='vim'" "export EDITOR='nano'"
+isthere bat """export MANPAGER="sh -c 'col -bx | bat -l man -p'" && alias cat='bat'"""
 
 # => Aliasis
 #package mnagers
-[ -x "$(command -v nala)" ] && alias apt='sudo nala' && \
-    alias aptup='sudo nala upgrade'
+isthere nala "alias apt='sudo nala' && alias aptup='sudo nala upgrade'" \
+    "alias apt='sudo apt' && alias aptup='sudo apt update && sudo apt upgrade'"
 
-! [ -x "$(command -v nala)" ] && alias apt='sudo apt' || \
-    alias aptup='sudo apt update && sudo apt upgrade'
+alias dnf='sudo dnf'
 
-[ -x "$(command -v aura)" ] && alias pacman='sudo aura' ||\
-    alias pacman='sudo pacman'
+isthere aura "alias pacman='sudo aura'" "alias pacman='sudo pacman'"
 
 #lsd as ls
-[ -x "$(command -v lsd)" ] && alias ls='lsd -lAh' || \
-    alias ls='ls -lAh --color=auto'
-
-#bat as cat
-[ -x "$(command -v bat)" ] && alias cat='bat'
+isthere lsd "alias ls='lsd -lAh'" "alias ls='ls -lAh --color=auto'"
 
 #files and dir
 alias cp='cp -ir'
 alias mv='mv -i '
 alias rm='rm -i'
-alias rmdir='rm -r'
+alias rmdir='/usr/bin/rm -r'
 alias mkdir='mkdir -pv'
 
 #grep
@@ -70,9 +65,6 @@ alias grep="grep --color=auto"
 #-----------------------------------------------
 
 # => Fancy Stuff
-[ -x "$(command -v starship)" ] && eval "$(starship init bash)" || \
-    PS1='\u@ \W ~~> '
-
-[ -x "$(command -v figlet)" ] && [ -x "$(command -v  lolcat)"] && \
-    figlet bash | lolcat
+isthere starship 'eval "$(starship init bash)"' "PS1='\u@ \W ~~> '"
+isthere figlet && isthere lolcat "figlet bash | lolcat"
 #-----------------------------------------------
