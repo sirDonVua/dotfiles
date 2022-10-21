@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+isthere () {
+    # local variables
+    local app=$1
+    local run=$2
+    local elrun=$3 # else run
+    
+    if command -v $app > /dev/null ;then
+        eval $run || return 0
+        return 0
+    else
+        eval $elrun || return 1
+        return 1
+    fi
+}
