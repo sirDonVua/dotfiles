@@ -43,8 +43,8 @@ alias grep    "grep --color=auto"
 # => files and dir
 alias cp      "cp -ir"
 alias rm      "rm -i"
+alias rmdir   "/usr/bin/env rm -r "
 alias mv      "mv -i"
-alias rmdir   "rm -r"
 alias mkdir   "mkdir -pv"
 
 # => starship prompt
