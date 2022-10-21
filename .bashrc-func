@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# checks if a command is available
 isthere () {
     # local variables
     local app=$1
@@ -13,4 +14,21 @@ isthere () {
         eval $elrun || return 1
         return 1
     fi
+}
+
+#set a manpager
+manpager () {
+    local pager=$1
+
+    case $pager in
+        "bat")
+            export MANPAGER="sh -c 'col -bx | bat -l man -p'" 
+            ;;
+        "most")
+            export MANPAGER="most"
+            ;;
+        "less")
+            export MANPAGER="less"
+            ;;
+    esac
 }

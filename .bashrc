@@ -39,7 +39,7 @@ export LESS='-R --use-color -Dd+r$Du+b' # some colors in less
 # read the source if you want to know more
 # setting an editor and a manpager
 isthere vim "export EDITOR='vim'" "export EDITOR='nano'"
-isthere bat """export MANPAGER="sh -c 'col -bx | bat -l man -p'" && alias cat='bat'"""
+isthere bat "manpager bat" "manpager less"
 
 # => Aliasis
 #package mnagers
@@ -60,8 +60,9 @@ alias rm='rm -i'
 alias rmdir='/usr/bin/rm -r'
 alias mkdir='mkdir -pv'
 
-#grep
+#grep and bat
 alias grep="grep --color=auto"
+alias cat='bat'
 #-----------------------------------------------
 
 # => Fancy Stuff
