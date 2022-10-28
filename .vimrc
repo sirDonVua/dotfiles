@@ -107,7 +107,7 @@ let &t_ut='' "fixing background disapperas when scrolling in kitty terminal
 set noshowmode
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
+      \ 'colorscheme': 'dracula',
       \ }
 
 "----------------------------------------
@@ -119,6 +119,8 @@ map <leader>v  :Vifm<cr>
 map <leader>m  :MagitOnly<cr>
 "startify
 map <leader>h  :Startify<cr>
+"install plugins
+map <leader>p  :PlugInstall<cr>
 "saving and existing
 map <leader>w  :w<cr>
 map <leader>q  :q<cr>
