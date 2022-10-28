@@ -34,12 +34,13 @@ source $HOME/.bashrc-func
 
 export TERM="xterm-256color"     # getting proper colors
 export LESS='-R --use-color -Dd+r$Du+b' # some colors in less
+export PATH="$HOME/.local/bin:$PATH"
 
 # isthere checks for a command if available 
 # read the source if you want to know more
 # setting an editor and a manpager
 isthere vim "export EDITOR='vim'" "export EDITOR='nano'"
-isthere bat "manpager bat" "manpager less"
+isthere bat "manpager bat" "manpager less" && alias cat='bat'
 
 # => Aliasis
 #package mnagers
@@ -62,10 +63,11 @@ alias mkdir='mkdir -pv'
 
 #grep and bat
 alias grep="grep --color=auto"
-alias cat='bat'
 #-----------------------------------------------
 
 # => Fancy Stuff
-isthere starship 'eval "$(starship init bash)"' "PS1='\u@ \W ~~> '"
+isthere starship 'eval "$(starship init bash)"' "PS1='\[\033[31m\]\u\[\033[36m\][\W] \[\033[37m\]=> '"
+isthere autojump "source /etc/profile.d/autojump.sh"
+isthere pfetch "pfetch"
 isthere figlet && isthere lolcat "figlet bash | lolcat"
 #-----------------------------------------------
