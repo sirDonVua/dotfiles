@@ -54,6 +54,9 @@ isthere aura "alias pacman='sudo aura'" "alias pacman='sudo pacman'"
 #lsd as ls
 isthere lsd "alias ls='lsd -lAh'" "alias ls='ls -lAh --color=auto'"
 
+#zoxide as cd
+isthere zoxide 'eval "$(zoxide init bash)"' && alias cd='z'
+
 #files and dir
 alias cp='cp -ir'
 alias mv='mv -i '
@@ -61,13 +64,12 @@ alias rm='rm -i'
 alias rmdir='/usr/bin/rm -r'
 alias mkdir='mkdir -pv'
 
-#grep and bat
+#grep
 alias grep="grep --color=auto"
 #-----------------------------------------------
 
 # => Fancy Stuff
 isthere starship 'eval "$(starship init bash)"' "PS1='\[\033[31m\]\u\[\033[36m\][\W] \[\033[37m\]=> '"
-isthere autojump "source /etc/profile.d/autojump.sh"
 isthere pfetch "pfetch"
 isthere figlet && isthere lolcat "figlet bash | lolcat"
 #-----------------------------------------------
