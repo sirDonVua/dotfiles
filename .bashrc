@@ -32,9 +32,11 @@ shopt -s dotglob       #*.* will include hidden files
 # => exports
 source $HOME/.bashrc-func
 
+export PATH="$HOME/.local/bin/:$PATH"
 export TERM="xterm-256color"     # getting proper colors
 export LESS='-R --use-color -Dd+r$Du+b' # some colors in less
-export PATH="$HOME/.local/bin:$PATH"
+export WWW="firefox" #browser
+export FM="pcmanfm" #filemanager
 
 # isthere checks for a command if available 
 # read the source if you want to know more
@@ -63,10 +65,6 @@ alias mv='mv -i '
 alias rm='rm -i'
 alias rmdir='/usr/bin/rm -r'
 alias mkdir='mkdir -pv'
-
-#my github stuff :)
-alias github="https://github.com"
-alias sirhub="https://github.com/sirDonVua"
 
 #grep
 alias grep="grep --color=auto"
