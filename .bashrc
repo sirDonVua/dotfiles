@@ -64,6 +64,10 @@ alias rm='rm -i'
 alias rmdir='/usr/bin/rm -r'
 alias mkdir='mkdir -pv'
 
+#my github stuff :)
+alias github="https://github.com"
+alias sirhub="https://github.com/sirDonVua"
+
 #grep
 alias grep="grep --color=auto"
 #-----------------------------------------------
