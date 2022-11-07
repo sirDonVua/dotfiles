@@ -1,0 +1,44 @@
+#launch apps
+super + b
+    $WWW
+
+super + f
+    $FM
+#vim and vifm
+
+#clipboard manager
+super + c
+    copyq show
+
+#i3lock
+super + Escape
+    i3lock
+
+#logout
+super + Delete
+    lxsession-logout &
+
+#screenshot
+@Print
+    flameshot gui
+
+#media keys
+XF86AudioRaiseVolume
+	changevolume up
+
+XF86AudioLowerVolume
+	changevolume down
+
+XF86AudioMute
+    changevolume mute
+
+#change language
+alt + shift + a
+    setxkbmap ar
+
+alt + shift + e
+    setxkbmap us
+
+#reload sxhkd
+shift + super + r
+    killall sxhkd && sxhkd &
