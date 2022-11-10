@@ -77,6 +77,8 @@
 (scroll-bar-mode -1)
 ;; line numbers
 (global-display-line-numbers-mode 1)
+;; stop creating ~ files
+(setq make-backup-files nil)
 
 ;; dark theme setup :)
 ;; doom emacs themes
@@ -92,3 +94,6 @@
   :ensure t
   :config
   (which-key-mode 1))
+
+;; lua support ;;
+(use-package lua-mode :ensure t)
