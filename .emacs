@@ -9,13 +9,13 @@
 
 ;; use-package
 (unless (package-installed-p 'use-package)
-(package-install 'use-package))
+  (package-install 'use-package)
+  (setq use-package-always-ensure t)) ; always make sure that the packages are installed
 
 ;; EVIL MODE
 
 ;; setup evil for text editing
 (use-package evil
-:ensure t ;; make sure it's installed
 :init ;; tweak the package before loading
 (setq evil-want-keybinding nil)
 (setq evil-undo-system 'undo-redo)
@@ -25,7 +25,6 @@
 ;; setup evil-collection which is evil in all emacs
 (use-package evil-collection
 :after evil
-:ensure t
 :config
 (evil-collection-init))
 
@@ -33,11 +32,10 @@
 
 ;; dasboard ;;
 (use-package dashboard
-  :ensure t
   :config
   (dashboard-setup-startup-hook)
   ;; icons
-  (use-package all-the-icons :ensure t)
+  (use-package all-the-icons)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   ;; change title
@@ -83,7 +81,6 @@
 ;; dark theme setup :)
 ;; doom emacs themes
 (use-package doom-themes
-  :ensure t
   :config
   (setq doom-theme-enable-bold t
 	doom-theme-enable-italic t)
@@ -91,9 +88,8 @@
 
 ;; Which key ;;
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode 1))
 
 ;; lua support ;;
-(use-package lua-mode :ensure t)
+(use-package lua-mode)
