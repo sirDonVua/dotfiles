@@ -222,6 +222,15 @@ Dear gnu emacs, can you drop those compiler messages that i dont care about
 
 #+end_src
 
+** symlinks
+make emacs always follow symlinks
+
+#+begin_src elisp
+
+(setq vc-handled-backends nil)
+
+#+end_src
+
 ** scrolling
 scrolling in emacs is just so bad
 
