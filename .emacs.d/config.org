@@ -106,7 +106,7 @@ for using arabic only in a buffer not from the system ~so other keybindings woul
 
 (nvmap :prefix "SPC"
     "a" '((lambda () (interactive) (set-input-method 'arabic )) :which-key "Switch to arabic language" )
-    "e" '((lambda() (interactive) (set-input-method 'Tox)) :which-key "Switch to english language" ))
+    "e" '((lambda() (interactive) (set-input-method 'TeX)) :Which-key "Switch to english language" ))
 
 #+end_src
 
