@@ -1,0 +1,289 @@
+#+title: gnu emacs config
+#+author: sirdonvua
+
+
+* package managment stuff
+** Melpa
+melpa an more uptodate repo for emacs .
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;(package-refresh-contents) ; reload the repo could take some time so i suggest using emacs clinet
+(package-initialize)
+
+#+END_SRC
+
+** use-package
+a more easy way to manage packages in emacs.
+
+#+BEGIN_SRC emacs-lisp
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+  (setq use-package-always-ensure t) ; always make sure that the packages are installed
+
+#+END_SRC
+
+* Keybindings
+** EVIL MDE
+the Emacs vi layer
+
+for normal text editing:
+#+BEGIN_SRC emacs-lisp
+
+(use-package evil
+:init ;; tweak the package before loading
+(setq evil-want-keybinding nil)
+(setq evil-undo-system 'undo-redo)
+(evil-mode 1))
+
+#+END_SRC
+
+for some buffers like titrus :)
+#+BEGIN_SRC emacs-lisp
+
+(use-package evil-collection
+:after evil
+:config
+(evil-collection-init))
+
+#+END_SRC
+
+** general
+*** install
+the general.el package which is an easy way to make keybindings
+#+begin_src emacs-lisp
+
+(use-package general
+  :config
+  (general-evil-setup t))
+
+#+end_src
+
+*** buffers and bookmarks
+#+begin_src elisp
+
+(nvmap :prefix "SPC"
+       "b b"   '(ibuffer :which-key "Ibuffer")
+       "b k"   '(kill-current-buffer :which-key "Kill current buffer")
+       "b l"   '(bookmark-bmenu-list :which-key "List bookmarks")
+       "b n"   '(next-buffer :which-key "Next buffer")
+       "b s"   '(bookmark-set :which-key "Set as a bookmark")
+       "b w"   '(bookmark-save :which-key "Write bookmarks")
+       "b p"   '(previous-buffer :which-key "Previous buffer")
+       "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
+       "b K"   '(kill-buffer :which-key "Kill buffer"))
+
+#+end_src
+
+*** files
+dired is the file manager in emacs, by default it's good but
+need some keybindings change like making space keybindings work
+
+#+begin_src elisp
+
+;; launching dired
+(nvmap :prefix "SPC"
+    "d" '(dired-jump :which-key "Launch dired")
+    "." '(find-file :which-key "find file")
+    "r" '((lambda() (interactive) (load-file "~/.emacs.d/init.el"))
+    :which-key "reload emacs"))
+
+;; makeing h,l do what the supposed to do
+(evil-define-key 'normal dired-mode-map
+(kbd "h") 'dired-up-directory
+(kbd "l") 'dired-find-file
+(kbd "SPC") 'nil) ; making keybindings start with SPC work in dired
+      
+#+end_src
+
+*** languages
+for using arabic only in a buffer not from the system ~so other keybindings would work~
+
+#+begin_src elisp
+
+(nvmap :prefix "SPC"
+    "a" '((lambda () (interactive) (set-input-method 'arabic )) :which-key "Switch to arabic language" )
+    "e" '((lambda() (interactive) (set-input-method 'Tox)) :which-key "Switch to english language" ))
+
+#+end_src
+
+* Customaization
+** dashboard
+setup dashboard with icons
+
+#+BEGIN_SRC emacs-lisp
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  ;; icons
+  (use-package all-the-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  ;; change title
+  (setq dashboard-banner-logo-title "I Love Emacs Games :)")
+  (setq dashboard-center-content t) ; make the dashboared centered
+(setq dashboard-items '((recents  . 5)
+                        (bookmarks . 5)
+                        (agenda . 5)))
+; make dasboard work with the emacs client
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))))
+
+#+ENd_SRC
+
+** fonts
+#+BEGIN_SRC emacs-lisp
+
+(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 16" :weight 'medium)
+(set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :weight 'medium)
+(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 16" :weight 'medium)
+
+;; uncomment only if using emacs client
+;(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 14" ))
+
+#+END_SRC
+
+*** arabic font
+by default rtl support in emacs is good but the fonts is not
+let's fix that :)
+
+#+BEGIN_SRC emacs-lisp
+
+(set-fontset-font "fontset-default"
+		  'arabic
+		  (font-spec :family "Amiri" :size 24 ))
+
+;; make RTL work will in org
+(defun set-bidi-env ()
+  "interactive"
+  (setq bidi-paragraph-direction 'nil))
+(add-hook 'org-mode-hook 'set-bidi-env)
+
+#+END_SRC
+
+** noobie bars
+if you do use emacs mostly you are a pro chad user who dont want that garbage filling up your screen
+use line numbers instead :)
+
+#+BEGIN_SRC emacs-lisp
+  
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+;; line numbers
+(global-display-line-numbers-mode 1)
+
+#+END_SRC
+
+** theme
+installing the whole doom emacs theme and using the doom one theme.
+
+#+begin_src emacs-lisp
+
+  (use-package doom-themes
+    :config
+    (setq doom-theme-enable-bold t
+	  doom-theme-enable-italic t)
+    (load-theme 'doom-one t)) ; load the doom one theme
+
+#+end_src
+
+** beacon
+never loss your cursor again ;)
+
+#+begin_src elisp
+
+(use-package beacon
+:config
+(beacon-mode 1))
+
+#+end_src
+
+* emacs tweaks
+** ~ files
+dear gnu emacs, PLZ stop creating those annoying ~ backup files.
+
+#+begin_src emacs-lisp
+
+(setq make-backup-files nil)
+
+#+end_src
+
+** Compiler messages
+Dear gnu emacs, can you drop those compiler messages that i dont care about
+
+#+begin_src elisp
+
+(setq comp-async-report-warnings-errors nil)
+
+#+end_src
+
+** scrolling
+scrolling in emacs is just so bad
+
+#+begin_src elisp
+
+(setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
+(setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+
+#+end_src
+
+* dired
+** Tweaking
+*** icons
+let's make dired The best file manager (by adding icons).
+
+#+begin_src elisp
+
+(use-package all-the-icons-dired
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
+#+end_src
+
+*** Trash
+#+begin_src elisp
+
+(setq delete-by-moving-to-trash t
+      trash-directory "~/.local/share/Trash/files/")
+
+#+end_src
+
+* Magit
+the best git client out there.
+
+#+begin_src elisp
+
+(use-package magit
+  :config
+  (nvmap :prefix "SPC"
+    "g" '(magit-status :which-key "Opens magit")))
+
+#+end_src
+
+* Which Key
+which key is the one of the best emacs packages outh there,
+it's like a cheatsheet for keybindings you hit the prefix and which key tells you what next.
+
+#+begin_src emacs-lisp
+
+  (use-package which-key
+    :config
+    (which-key-mode 1))
+  
+#+end_src
+
+* lua support
+emacs doesnot support lua :( lets fix that.
+
+#+begin_src emacs-lisp
+
+  (use-package lua-mode)
+
+#+end_src
