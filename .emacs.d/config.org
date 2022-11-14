@@ -277,6 +277,74 @@ let's make dired The best file manager (by adding icons).
 
 #+end_src
 
+* org mode
+** org modern
+make org header and checkboxes beeter
+
+#+begin_src elisp
+
+(use-package org-modern
+  :config (global-org-modern-mode 1))
+
+#+end_src
+
+** org headers
+diffrent hight for org headers
+
+#+begin_src elisp
+
+(set-face-attribute 'org-level-1 nil :height 1.8)
+(set-face-attribute 'org-level-2 nil :height 1.6)
+(set-face-attribute 'org-level-3 nil :height 1.4)
+(set-face-attribute 'org-level-4 nil :height 1.3)
+(set-face-attribute 'org-level-5 nil :height 1.2)
+(set-face-attribute 'org-level-6 nil :height 1.1)
+
+#+end_src
+
+** org tempo
+expand tags into src blocks
+
+#+begin_src elisp 
+
+(use-package org-tempo
+  :ensure nil) ; iguess it's installed but need to be activated
+
+#+end_src
+
+** org auto Tangle
+the best plugin for those who wrights litrate configs
+when you save the file will auto tangle if you added ~- #+auto_tangle: t -~ in the top of your org file
+
+#+begin_src elisp
+(use-package org-auto-tangle
+ :defer t
+  :hook (org-mode . org-auto-tangle-mode))
+#+end_src
+
+** Syntax highlighing
+use native syntax highlighting in src code blocks
+
+#+begin_src elisp
+
+(setq org-src-fontify-natively t
+    org-src-tab-acts-natively t
+    org-confirm-babel-evaluate nil
+    org-edit-src-content-indentation 0)
+
+#+end_src
+
+** TOC
+auto generated table of content 
+
+#+begin_src elisp
+
+(use-package toc-org
+  :commands toc-org-enable
+  :hook (org-mode-hook . toc-org-enable))
+
+  #+end_src
+  
 * Magit
 the best git client out there.
 
