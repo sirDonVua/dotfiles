@@ -1,6 +1,37 @@
 #+title: gnu emacs config
 #+author: sirdonvua
 
+* Table of contents :toc:
+- [[#package-managment-stuff][package managment stuff]]
+  - [[#melpa][Melpa]]
+  - [[#use-package][use-package]]
+- [[#keybindings][Keybindings]]
+  - [[#evil-mde][EVIL MDE]]
+  - [[#general][general]]
+- [[#customaization][Customaization]]
+  - [[#dashboard][dashboard]]
+  - [[#fonts][fonts]]
+  - [[#noobie-bars][noobie bars]]
+  - [[#theme][theme]]
+  - [[#modeline][modeline]]
+  - [[#beacon][beacon]]
+- [[#emacs-tweaks][emacs tweaks]]
+  - [[#-files][~ files]]
+  - [[#compiler-messages][Compiler messages]]
+  - [[#symlinks][symlinks]]
+  - [[#scrolling][scrolling]]
+- [[#dired][dired]]
+  - [[#tweaking][Tweaking]]
+- [[#org-mode][org mode]]
+  - [[#org-modern][org modern]]
+  - [[#org-headers][org headers]]
+  - [[#org-tempo][org tempo]]
+  - [[#org-auto-tangle][org auto Tangle]]
+  - [[#syntax-highlighing][Syntax highlighing]]
+  - [[#toc][TOC]]
+- [[#magit][Magit]]
+- [[#which-key][Which Key]]
+- [[#lua-support][lua support]]
 
 * package managment stuff
 ** Melpa
