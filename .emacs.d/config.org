@@ -22,6 +22,7 @@ a more easy way to manage packages in emacs.
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+  (require 'use-package-ensure)
   (setq use-package-always-ensure t) ; always make sure that the packages are installed
 
 #+END_SRC
