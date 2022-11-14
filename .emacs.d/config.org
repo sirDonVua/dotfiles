@@ -193,6 +193,18 @@ installing the whole doom emacs theme and using the doom one theme.
 
 #+end_src
 
+** modeline
+to be honest emacs default modeline is useless.
+
+#+begin_src elisp
+
+  (use-package doom-modeline
+    :ensure t
+    :config
+    (doom-modeline-mode 1))
+
+#+end_src
+
 ** beacon
 never loss your cursor again ;)
 
