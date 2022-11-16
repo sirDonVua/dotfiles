@@ -550,6 +550,7 @@ startup_apps= {
    "brillo -I",
    "picom",
    "copyq",
+   "nitrogen --restore",
    "emacs --daemon",
    }
 -- killing the apps before starting them
