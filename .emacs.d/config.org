@@ -36,6 +36,7 @@
   - [[#tabel-of-contents][tabel of contents]]
   - [[#org-auto-tangle][org auto Tangle]]
   - [[#org-journal][org journal]]
+  - [[#keybindings-2][keybindings]]
 - [[#magit][Magit]]
 - [[#which-key][Which Key]]
 - [[#lua-support][lua support]]
@@ -434,6 +435,18 @@ a good way for journaling (diary) in org mode
         org-journal-date-format "%A, %d %B %Y"
         org-journal-file-format "%Y-%m-%d.org"))
  #+end_src
+
+** keybindings
+
+#+begin_src elisp
+
+(nvmap :prefix "SPC"
+   "o a" '(org-agenda :which-key "opens org agenda")
+   "o w" '(org-agenda-list :which-key "agenda week view")
+   "o j" '(org-journal-new-entry :which-key "a new journal file")
+   "o c" '(org-journal-open-current-journal-file :which-key "open Current journal file"))
+
+#+end_src
 
 * Magit
 the best git client out there.
