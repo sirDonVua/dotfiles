@@ -2,12 +2,15 @@
 #+author: sirdonvua
 
 * Table of contents :toc:
-- [[#package-managment-stuff][package managment stuff]]
+- [[#package-mangment][package mangment]]
   - [[#melpa][Melpa]]
   - [[#use-package][use-package]]
 - [[#keybindings][Keybindings]]
-  - [[#evil-mde][EVIL MDE]]
+  - [[#evil-mode][EVIL MODE]]
   - [[#general][general]]
+  - [[#buffers-and-bookmarks][buffers and bookmarks]]
+  - [[#files][files]]
+  - [[#languages][languages]]
 - [[#customaization][Customaization]]
   - [[#dashboard][dashboard]]
   - [[#fonts][fonts]]
@@ -20,28 +23,31 @@
   - [[#compiler-messages][Compiler messages]]
   - [[#symlinks][symlinks]]
   - [[#scrolling][scrolling]]
+- [[#ivy-and-counsel][Ivy and counsel]]
 - [[#dired][dired]]
-  - [[#tweaking][Tweaking]]
+  - [[#icons][icons]]
+  - [[#keybindings-1][keybindings]]
+  - [[#trash][Trash]]
 - [[#org-mode][org mode]]
-  - [[#org-modern][org modern]]
   - [[#org-headers][org headers]]
-  - [[#org-tempo][org tempo]]
-  - [[#org-auto-tangle][org auto Tangle]]
+  - [[#org-modern][org modern]]
   - [[#syntax-highlighing][Syntax highlighing]]
-  - [[#toc][TOC]]
+  - [[#org-tempo][org tempo]]
+  - [[#tabel-of-contents][tabel of contents]]
+  - [[#org-auto-tangle][org auto Tangle]]
+  - [[#org-journal][org journal]]
 - [[#magit][Magit]]
 - [[#which-key][Which Key]]
 - [[#lua-support][lua support]]
 
-* package managment stuff
+* package mangment
 ** Melpa
-melpa an more uptodate repo for emacs .
+melpa a more uptodate repo for emacs packages.
 
 #+BEGIN_SRC emacs-lisp
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;(package-refresh-contents) ; reload the repo could take some time so i suggest using emacs clinet
 (package-initialize)
 
 #+END_SRC
@@ -52,14 +58,14 @@ a more easy way to manage packages in emacs.
 #+BEGIN_SRC emacs-lisp
 
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
-  (require 'use-package-ensure)
   (setq use-package-always-ensure t) ; always make sure that the packages are installed
 
 #+END_SRC
 
 * Keybindings
-** EVIL MDE
+** EVIL MODE
 the Emacs vi layer
 
 for normal text editing:
@@ -84,7 +90,6 @@ for some buffers like titrus :)
 #+END_SRC
 
 ** general
-*** install
 the general.el package which is an easy way to make keybindings
 #+begin_src emacs-lisp
 
@@ -94,7 +99,7 @@ the general.el package which is an easy way to make keybindings
 
 #+end_src
 
-*** buffers and bookmarks
+** buffers and bookmarks
 #+begin_src elisp
 
 (nvmap :prefix "SPC"
@@ -110,41 +115,34 @@ the general.el package which is an easy way to make keybindings
 
 #+end_src
 
-*** files
-dired is the file manager in emacs, by default it's good but
-need some keybindings change like making space keybindings work
+** files
 
 #+begin_src elisp
 
-;; launching dired
 (nvmap :prefix "SPC"
     "d" '(dired-jump :which-key "Launch dired")
     "." '(find-file :which-key "find file")
+    "f r" '(counsel-recentf :which-key "find recent file")
+    "f s" '(counsel-swiper :which-key "Search in a file")
     "r" '((lambda() (interactive) (load-file "~/.emacs.d/init.el"))
     :which-key "reload emacs"))
 
-;; makeing h,l do what the supposed to do
-(evil-define-key 'normal dired-mode-map
-(kbd "h") 'dired-up-directory
-(kbd "l") 'dired-find-file
-(kbd "SPC") 'nil) ; making keybindings start with SPC work in dired
-      
 #+end_src
 
-*** languages
-for using arabic only in a buffer not from the system ~so other keybindings would work~
+** languages
+Changing to secoundrey language only in the current buffer ~so other keybindings would work~
 
 #+begin_src elisp
 
 (nvmap :prefix "SPC"
-    "a" '((lambda () (interactive) (set-input-method 'arabic )) :which-key "Switch to arabic language" )
+    "a" '((lambda () (interactive) (set-input-method 'arabic)) :which-key "Switch to the secound language" )
     "e" '((lambda() (interactive) (set-input-method 'TeX)) :which-key "Switch to english language" ))
 
 #+end_src
 
 * Customaization
 ** dashboard
-setup dashboard with icons
+welocome screens are usless let's use dashboard instead.
 
 #+BEGIN_SRC emacs-lisp
 
@@ -158,24 +156,23 @@ setup dashboard with icons
   ;; change title
   (setq dashboard-banner-logo-title "I Love Emacs Games :)")
   (setq dashboard-center-content t) ; make the dashboared centered
-(setq dashboard-items '((recents  . 5)
-                        (bookmarks . 5)
-                        (agenda . 5)))
-; make dasboard work with the emacs client
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))))
+  (setq dashboard-items '((recents  . 10)
+                        (bookmarks . 5)))
+  ; make dasboard work with the emacs client
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))))
 
 #+ENd_SRC
 
 ** fonts
 #+BEGIN_SRC emacs-lisp
 
-(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 16" :weight 'medium)
+(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :weight 'medium)
 (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :weight 'medium)
-(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 16" :weight 'medium)
+(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :weight 'medium)
 
-;; uncomment only if using emacs client
-;(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 14" ))
-
+;; if the buffer is a daemon it will fix the daemon fonts.
+(if (daemonp)
+(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 14" )))
 #+END_SRC
 
 *** arabic font
@@ -188,7 +185,7 @@ let's fix that :)
 		  'arabic
 		  (font-spec :family "Amiri" :size 24 ))
 
-;; make RTL work will in org
+;; make RTL work will in org mode
 (defun set-bidi-env ()
   "interactive"
   (setq bidi-paragraph-direction 'nil))
@@ -230,7 +227,6 @@ to be honest emacs default modeline is useless.
 #+begin_src elisp
 
   (use-package doom-modeline
-    :ensure t
     :config
     (doom-modeline-mode 1))
 
@@ -287,9 +283,42 @@ scrolling in emacs is just so bad
 
 #+end_src
 
+* Ivy and counsel
+a completion mechanisem for emacs.
+
+#+begin_src elisp
+
+;; counsel
+(use-package counsel
+:after ivy
+:config (counsel-mode))
+
+;; ivy
+(use-package ivy
+:config (ivy-mode)
+(setq ivy-initial-inputs-alist nil))
+
+;; ivy-rich
+(use-package ivy-rich
+  :after ivy
+  :custom
+  (ivy-virtual-abbreviate 'full
+   ivy-rich-switch-buffer-align-virtual-buffer t
+   ivy-rich-path-style 'abbrev)
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+                               'ivy-rich-switch-buffer-transformer)
+  (ivy-rich-mode 1)) ;; this gets us descriptions in M-x.
+
+;; swiper
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)))
+
+#+end_src
+
 * dired
-** Tweaking
-*** icons
+** icons
 let's make dired The best file manager (by adding icons).
 
 #+begin_src elisp
