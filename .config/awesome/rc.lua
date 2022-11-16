@@ -306,7 +306,13 @@ globalkeys = gears.table.join(
               {description = "take a screenshot", group = "launcher"}),
     
     awful.key({ altkey, }, "space", function() awful.spawn.with_shell(clip_mgr) end,
-              {description = "Opens clipboard manager", group = "launcher"})
+              {description = "Opens clipboard manager", group = "launcher"}),
+
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn.with_shell("$HOME/.local/bin/changevolume up") end,
+              {description = "Volume up", group = "launcher"}),
+
+    awful.key({ } , "XF86AudioLowerVolume", function() awful.spawn.with_shell("$HOME/.local/bin/changevolume down") end,
+              {description = "Volume down", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
