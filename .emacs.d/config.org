@@ -300,7 +300,20 @@ let's make dired The best file manager (by adding icons).
 
 #+end_src
 
-*** Trash
+** keybindings
+
+#+begin_src elisp
+
+;; makeing h,l do what the supposed to do
+(evil-define-key 'normal dired-mode-map
+(kbd "h") 'dired-up-directory
+(kbd "l") 'dired-find-file
+(kbd "SPC") 'nil) ; making keybindings start with SPC work in dired
+
+#+end_src
+
+** Trash
+
 #+begin_src elisp
 
 (setq delete-by-moving-to-trash t
@@ -309,18 +322,8 @@ let's make dired The best file manager (by adding icons).
 #+end_src
 
 * org mode
-** org modern
-make org header and checkboxes beeter
-
-#+begin_src elisp
-
-(use-package org-modern
-  :config (global-org-modern-mode 1))
-
-#+end_src
-
 ** org headers
-diffrent hight for org headers
+diffrent size for org headers
 
 #+begin_src elisp
 
@@ -333,24 +336,15 @@ diffrent hight for org headers
 
 #+end_src
 
-** org tempo
-expand tags into src blocks
-
-#+begin_src elisp 
-
-(use-package org-tempo
-  :ensure nil) ; iguess it's installed but need to be activated
-
-#+end_src
-
-** org auto Tangle
-the best plugin for those who wrights litrate configs
-when you save the file will auto tangle if you added ~- #+auto_tangle: t -~ in the top of your org file
+** org modern
+make org header checkboxes markers better
 
 #+begin_src elisp
-(use-package org-auto-tangle
- :defer t
-  :hook (org-mode . org-auto-tangle-mode))
+
+(use-package org-modern
+  :config (global-org-modern-mode 1))
+(setq org-hide-emphasis-markers t) ; hide markup signs like ~ ~ * * / / _ _
+
 #+end_src
 
 ** Syntax highlighing
@@ -365,17 +359,53 @@ use native syntax highlighting in src code blocks
 
 #+end_src
 
-** TOC
+** org tempo
+expand tags into src blocks
+
+#+begin_src elisp 
+
+(use-package org-tempo
+  :ensure nil) ; iguess it's installed but need to be activated
+
+#+end_src
+
+** tabel of contents
 auto generated table of content 
 
 #+begin_src elisp
 
 (use-package toc-org
   :commands toc-org-enable
-  :hook (org-mode-hook . toc-org-enable))
+  :init (add-hook 'org-mode-hook 'toc-org-enable))
 
   #+end_src
   
+** org auto Tangle
+the best plugin for those who wrights litrate configs
+when you save the file will auto tangle if you added ~- #+auto_tangle: t -~ in the top of your org file
+
+#+begin_src elisp
+(use-package org-auto-tangle
+ :defer t
+  :hook (org-mode . org-auto-tangle-mode))
+#+end_src
+
+** org journal
+a good way for journaling (diary) in org mode
+
+#+begin_src elisp
+
+(use-package org-journal
+  :defer t
+  :init
+  ;; Change default prefix key; needs to be set before loading org-journal
+  (setq org-journal-prefix-key "C-c j ")
+  :config
+  (setq org-journal-dir "~/org/journal/"
+        org-journal-date-format "%A, %d %B %Y"
+        org-journal-file-format "%Y-%m-%d.org"))
+ #+end_src
+
 * Magit
 the best git client out there.
 
