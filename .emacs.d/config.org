@@ -39,7 +39,8 @@
   - [[#keybindings-2][keybindings]]
 - [[#magit][Magit]]
 - [[#which-key][Which Key]]
-- [[#lua-support][lua support]]
+- [[#emacs-ide][emacs ide]]
+  - [[#lua-support][lua support]]
 
 * package mangment
 ** Melpa
@@ -61,6 +62,7 @@ a more easy way to manage packages in emacs.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+  (require 'use-package-ensure)
   (setq use-package-always-ensure t) ; always make sure that the packages are installed
 
 #+END_SRC
@@ -167,13 +169,13 @@ welocome screens are usless let's use dashboard instead.
 ** fonts
 #+BEGIN_SRC emacs-lisp
 
-(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :weight 'medium)
+(set-face-attribute 'default nil :font "Caskaydiacove Nerd Font 14" :weight 'medium)
 (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :weight 'medium)
-(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :weight 'medium)
+(set-face-attribute 'fixed-pitch nil :font "Caskaydiacove Nerd Font 14" :weight 'medium)
 
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
-(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 14" )))
+(add-to-list 'default-frame-alist '(font . "Caskaydiacove Nerd Font 16" )))
 #+END_SRC
 
 *** arabic font
@@ -472,7 +474,8 @@ it's like a cheatsheet for keybindings you hit the prefix and which key tells yo
   
 #+end_src
 
-* lua support
+* emacs ide
+** lua support
 emacs doesnot support lua :( lets fix that.
 
 #+begin_src emacs-lisp

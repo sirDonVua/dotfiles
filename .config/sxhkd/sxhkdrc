@@ -1,0 +1,35 @@
+super + b
+    brave-browser
+
+super + e
+      emacsclient -c -a 'emacs'
+
+alt + space
+    copyq show
+
+super + Delete
+    lxsession-logout &
+
+@Print
+    flameshot gui
+
+XF86Audio{Raise,Lower}Volume
+	$HOME/.local/bin/changevolume {up,down}
+
+XF86AudioMute
+	$HOME/.local/bin/changevolume mute
+	
+#my rofi scripts
+shift + super + space
+    rofi-scripts #a bash script in my .local/bin
+
+super + r
+    rofi -show drun
+
+#change language
+ctrl + space 
+    $HOME/.local/bin/switchlang
+
+#reload sxhkd
+super + shift + r
+      pkill -USR1 -x sxhkd

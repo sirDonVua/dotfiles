@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+lang="$(setxkbmap -print | awk -F"+" '/xkb_symbols/ {print $2}')"
+
+case $lang in
+    
+    'us')
+	setxkbmap ara
+	;;
+
+    'ara')
+	setxkbmap us
+	;;
+
+esac
+

@@ -1,0 +1,15 @@
+configuration {
+
+    display-drun: "dmenu: ";
+    show-icons : true;
+    icon-theme: "Papirus";
+    drun-display-format: "{icon} {name}";
+    font: "CaskaydiaCove Nerd Font 10";
+
+
+}
+
+@theme "theme.rasi"
+
+
+
