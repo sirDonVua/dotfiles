@@ -39,13 +39,13 @@ do
 end
 
 -- Variables
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/themes/powerarrow-dark/theme.lua")
 
 terminal = "alacritty"
 editor = "emacsclient -c -a 'emacs' " or "nvim" or "vim" or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
-browser = "brave" or "firefox"
+browser = "brave"
 screenshoter = "flameshot gui"
 clip_mgr = "copyq show"
 
@@ -287,32 +287,7 @@ globalkeys = gears.table.join(
                     )
                   end
               end,
-              {description = "restore minimized", group = "client"}),
-
-    -- Launchers
-    awful.key({ modkey },            "r",     function() awful.util.spawn("rofi -show drun") end,
-              {description = "run prompt", group = "launcher"}),
-
-    awful.key({ modkey }, "b", function() awful.spawn.with_shell(browser) end,
-              {description = "launch a browser", group = "launcher"}),
-    
-    awful.key({ modkey }, "e", function() awful.spawn.with_shell("emacsclient -c -a 'emacs' ") end,
-              {description = "launch emacs client", group = "launcher"}),
-    
-    awful.key({ modkey }, "Delete", function() awful.spawn.with_shell("lxsession-logout") end,
-              {description = "logout", group = "launcher"}),
-    
-    awful.key({ }, "Print", function() awful.spawn.with_shell(screenshoter) end,
-              {description = "take a screenshot", group = "launcher"}),
-    
-    awful.key({ altkey, }, "space", function() awful.spawn.with_shell(clip_mgr) end,
-              {description = "Opens clipboard manager", group = "launcher"}),
-
-    awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn.with_shell("$HOME/.local/bin/changevolume up") end,
-              {description = "Volume up", group = "launcher"}),
-
-    awful.key({ } , "XF86AudioLowerVolume", function() awful.spawn.with_shell("$HOME/.local/bin/changevolume down") end,
-              {description = "Volume down", group = "launcher"})
+              {description = "restore minimized", group = "client"})
 )
 
 clientkeys = gears.table.join(
@@ -545,8 +520,8 @@ client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+--client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+--client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
 startup_apps= {
@@ -558,12 +533,14 @@ startup_apps= {
    "copyq",
    "nitrogen --restore",
    "emacs --daemon",
+   "sxhkd",
+   "dunst",
    }
--- killing the apps before starting them
-for k,v in pairs(startup_apps) do
-   awful.util.spawn("killall " .. v)
-end
 
-for k,v in pairs(startup_apps) do
-   awful.util.spawn(v)
-end
+-- killing the apps before starting them
+-- for k,v in pairs(startup_apps) do
+   
+--   awful.util.spawn("killall " .. v)
+--   awful.util.spawn(v)
+   
+-- end

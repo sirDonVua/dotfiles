@@ -99,7 +99,7 @@ call plug#end()
 "=> plugins configure
 
 "colorscheme
-colorscheme wal
+"colorscheme wal
 let &t_ut='' "fixing background disapperas when scrolling in kitty terminal
 "hi Normal guibg=NONE ctermbg=NONE "uses your terminal background instead
 

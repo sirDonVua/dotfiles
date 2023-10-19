@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 lxsession &
 redshift &
 picom &
@@ -7,3 +7,4 @@ nitrogen --restore &
 emacs --daemon &
 sxhkd &
 dunst &
+cbatticon &

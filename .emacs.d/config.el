@@ -5,6 +5,8 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+  (require 'use-package-ensure)
   (setq use-package-always-ensure t) ; always make sure that the packages are installed
 
 (use-package evil
@@ -50,7 +52,8 @@
   (dashboard-setup-startup-hook)
   ;; icons
   (use-package all-the-icons)
-  (setq dashboard-set-heading-icons t)
+  (use-package nerd-icons)
+  (setq dashboard-icon-type 'nerd-icons) ;; use `all-the-icons' package
   (setq dashboard-set-file-icons t)
   ;; change title
   (setq dashboard-banner-logo-title "I Love Emacs Games :)")
@@ -60,17 +63,32 @@
   ; make dasboard work with the emacs client
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))))
 
-(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :weight 'medium)
-(set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :weight 'medium)
-(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :weight 'medium)
-
+;; Set default font
+(defun nt/set-font-faces()
+  (set-face-attribute 'default nil :font "Caskaydiacove Nerd Font 14" :height 151)
+  (set-face-attribute 'fixed-pitch nil :font "Caskaydiacove Nerd Font 14" :height 151)
+  (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 151))
+  (set-fontset-font t 'arabic "Omar 16")
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
-(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 14" )))
+    (add-hook 'after-make-frame-functions
+		(lambda (frame)
+		  (with-selected-frame frame
+		    (nt/set-font-faces))))
+  (nt/set-font-faces))
 
-(set-fontset-font "fontset-default"
-		  'arabic
-		  (font-spec :family "Amiri" :size 24 ))
+;; Set the default spacing between lines to not make them stuck to each other
+(setq-default line-spacing 8)
+
+;; comments in italic
+(set-face-attribute 'font-lock-comment-face nil
+  :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil
+  :slant 'italic)
+
+;;(set-fontset-font "fontset-default"
+;		  'arabic
+;		  (font-spec :family "Amiri" :size 24 ))
 
 ;; make RTL work will in org mode
 (defun set-bidi-env ()
@@ -89,7 +107,8 @@
   :config
   (setq doom-theme-enable-bold t
 	doom-theme-enable-italic t)
-  (load-theme 'doom-one t)) ; load the doom one theme
+  (load-theme 'doom-dracula t) ;; loads the theme
+  (doom-themes-org-config))
 
 (use-package doom-modeline
   :config
@@ -99,7 +118,7 @@
 :config
 (beacon-mode 1))
 
-(setq make-backup-files nil)
+(setq backup-directory-alist '((".*" . "~/.local/share/Trash/files")))
 
 (setq comp-async-report-warnings-errors nil)
 
@@ -109,6 +128,11 @@
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
 ;; counsel
 (use-package counsel
@@ -141,33 +165,49 @@
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-;; makeing h,l do what the supposed to do
-(evil-define-key 'normal dired-mode-map
-(kbd "h") 'dired-up-directory
-(kbd "l") 'dired-find-file
-(kbd "SPC") 'nil) ; making keybindings start with SPC work in dired
+(use-package dired-open
+  :config
+  (setq dired-open-extensions '(("gif" . "sxiv")
+                                ("jpg" . "sxiv")
+                                ("png" . "sxiv")
+                                ("mkv" . "mpv")
+                                ("mp4" . "mpv"))))
+
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook))
+
+;; keybindings
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory) ; using h to go up a directory
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; using l to open/enter a/an file/directory 
+    (evil-define-key 'normal dired-mode-map (kbd "SPC") 'nil) ; making keybindings start with SPC work in dired
+    (evil-define-key 'normal dired-mode-map (kbd "p") 'peep-dired) ; launching peep dired
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
 
 (setq delete-by-moving-to-trash t
       trash-directory "~/.local/share/Trash/files/")
 
-(set-face-attribute 'org-level-1 nil :height 1.8)
-(set-face-attribute 'org-level-2 nil :height 1.6)
-(set-face-attribute 'org-level-3 nil :height 1.4)
-(set-face-attribute 'org-level-4 nil :height 1.3)
-(set-face-attribute 'org-level-5 nil :height 1.2)
-(set-face-attribute 'org-level-6 nil :height 1.1)
+(custom-set-faces
+ '(org-level-1 ((t (:inherit outline-1 :height 1.7))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.6))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.5))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.4))))
+ '(org-level-5 ((t (:inherit outline-5 :height 1.3))))
+ '(org-level-6 ((t (:inherit outline-5 :height 1.2))))
+ '(org-level-7 ((t (:inherit outline-5 :height 1.1)))))
 
 (use-package org-modern
   :config (global-org-modern-mode 1))
 (setq org-hide-emphasis-markers t) ; hide markup signs like ~ ~ * * / / _ _
+(setq org-startup-indented t)
 
 (setq org-src-fontify-natively t
     org-src-tab-acts-natively t
     org-confirm-babel-evaluate nil
     org-edit-src-content-indentation 0)
 
-(use-package org-tempo
-  :ensure nil) ; iguess it's installed but need to be activated
+(require 'org-tempo)
 
 (use-package toc-org
   :commands toc-org-enable
@@ -202,4 +242,49 @@
   :config
   (which-key-mode 1))
 
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :config
+  (lsp-enable-which-key-integration t))
+
+;;  lsp-ui UI enhancements for lsp-mode
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+;; Performance tweaks, see
+  ;; https://github.com/emacs-lsp/lsp-mode#performance
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 0.500)
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+(use-package company
+  :defer 2
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations 't)
+  (global-company-mode t))
+
+(use-package company-box
+  :after company
+  :hook (company-mode . company-box-mode))
+
+(use-package smartparens
+  :config (smartparens-global-mode 1))
+
 (use-package lua-mode)
+(use-package nix-mode
+  :mode "\\.nix\\'")
