@@ -484,7 +484,7 @@ a good way for journaling (diary) in org mode
   ;; Change default prefix key; needs to be set before loading org-journal
   (setq org-journal-prefix-key "C-c j ")
   :config
-  (setq org-journal-dir "~/org/journal/"
+  (setq org-journal-dir "~/Documents/journal/"
         org-journal-date-format "%A, %d %B %Y"
         org-journal-file-format "%Y-%m-%d.org"))
  #+end_src
