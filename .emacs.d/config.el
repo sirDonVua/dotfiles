@@ -54,7 +54,11 @@
   (use-package all-the-icons)
   (use-package nerd-icons)
   (setq dashboard-icon-type 'nerd-icons) ;; use `all-the-icons' package
+  (setq dashboard-display-icons-p t) ;; icons for the emacs client
   (setq dashboard-set-file-icons t)
+  ;; icons for the emacs client
+(if (display-graphic-p)
+  (setq dashboard-set-file-icons t))
   ;; change title
   (setq dashboard-banner-logo-title "I Love Emacs Games :)")
   (setq dashboard-center-content t) ; make the dashboared centered
@@ -177,13 +181,19 @@
   :after dired
   :hook (evil-normalize-keymaps . peep-dired-hook))
 
+;; ls command for dired
+(setq dired-listing-switches "-alhv --group-directories-first")
 ;; keybindings
     (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory) ; using h to go up a directory
     (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; using l to open/enter a/an file/directory 
     (evil-define-key 'normal dired-mode-map (kbd "SPC") 'nil) ; making keybindings start with SPC work in dired
     (evil-define-key 'normal dired-mode-map (kbd "p") 'peep-dired) ; launching peep dired
-    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+
+;; peep-dired keybindings
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 
 (setq delete-by-moving-to-trash t
       trash-directory "~/.local/share/Trash/files/")
@@ -265,6 +275,11 @@
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp))))  ; or lsp-deferred
+;; pyvenv
+(use-package pyvenv
+  :ensure t
+  :config
+  (pyvenv-mode t))
 
 (use-package company
   :defer 2

@@ -22,7 +22,8 @@ colors = {
     "purple":"#bd93f9",
     "red":"#ff5555",
     "yellow":"#f1fa8c"
-}
+} #This is the offical dracula theme platte
+  #and please ignore the naming
 
 
 keys = [

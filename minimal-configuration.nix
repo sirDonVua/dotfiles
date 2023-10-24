@@ -75,7 +75,7 @@
     sxiv
     celluloid
     rofi
-    pkgs.gnome-text-editor
+    lite-xl
     polkit
     lxsession
     lxappearance
