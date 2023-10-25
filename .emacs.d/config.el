@@ -1,13 +1,55 @@
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+(defvar elpaca-installer-version 0.5)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil
+                              :files (:defaults (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (call-process "git" nil buffer t "clone"
+                                       (plist-get order :repo) repo)))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; Install use-package support
+(elpaca elpaca-use-package
+  ;; Enable :elpaca use-package keyword.
+  (elpaca-use-package-mode)
+  ;; Assume :elpaca t unless otherwise specified.
+  (setq elpaca-use-package-by-default t))
 
-  (require 'use-package-ensure)
-  (setq use-package-always-ensure t) ; always make sure that the packages are installed
+;; Block until current queue processed.
+(elpaca-wait)
+
+;;Turns off elpaca-use-package-mode current declaration
+(use-package emacs :elpaca nil :config (setq ring-bell-function #'ignore))
+
+(require 'use-package-ensure)
+(setq use-package-always-ensure t) ; always make sure that the packages are installed
 
 (use-package evil
 :init ;; tweak the package before loading
@@ -23,6 +65,7 @@
 (use-package general
   :config
   (general-evil-setup t))
+(elpaca-wait)
 
 (nvmap :prefix "SPC"
        "b b"   '(ibuffer :which-key "Ibuffer")
@@ -69,8 +112,8 @@
 
 ;; Set default font
 (defun nt/set-font-faces()
-  (set-face-attribute 'default nil :font "Caskaydiacove Nerd Font 14" :height 151)
-  (set-face-attribute 'fixed-pitch nil :font "Caskaydiacove Nerd Font 14" :height 151)
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 151)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 151)
   (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 151))
   (set-fontset-font t 'arabic "Omar 16")
 ;; if the buffer is a daemon it will fix the daemon fonts.
@@ -247,6 +290,7 @@
   :config
   (nvmap :prefix "SPC"
     "g" '(magit-status :which-key "Opens magit")))
+(elpaca-wait)
 
 (use-package which-key
   :config
