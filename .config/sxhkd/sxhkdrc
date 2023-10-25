@@ -1,5 +1,5 @@
 super + b
-    appimage-run /home/vex/Downloads/THR.AppImage
+    thorium-browser
 
 super + e
       emacsclient -c -a 'emacs'
