@@ -8,9 +8,6 @@
 - [[#keybindings][Keybindings]]
   - [[#evil-mode][EVIL MODE]]
   - [[#general][general]]
-  - [[#buffers-and-bookmarks][buffers and bookmarks]]
-  - [[#files][files]]
-  - [[#languages][languages]]
 - [[#customaization][Customaization]]
   - [[#dashboard][dashboard]]
   - [[#fonts][fonts]]
@@ -44,7 +41,10 @@
 - [[#emacs-ide][Emacs IDE]]
   - [[#lsp][LSP]]
   - [[#company][company]]
+  - [[#vterm][Vterm]]
   - [[#smartparens][smartparens]]
+  - [[#sudoedit][sudoedit]]
+  - [[#rainbow-mode][rainbow mode]]
   - [[#languages-support][Languages support]]
 
 * package mangment
@@ -106,10 +106,8 @@ makes elpaca works with use-package
 ;; Block until current queue processed.
 (elpaca-wait)
 
-;;Turns off elpaca-use-package-mode current declaration
-(use-package emacs :elpaca nil :config (setq ring-bell-function #'ignore))
-
 #+end_src
+
 ** use-package
 an easy way to manage packages in emacs.
 #+begin_src emacs-lisp
@@ -144,55 +142,80 @@ for some buffers like titrus :)
 
 #+END_SRC
 
+learning evil :)
+#+begin_src elisp
+
+(use-package evil-tutor)
+
+#+end_src
 ** general
 the general.el package which is an easy way to make keybindings
 #+begin_src emacs-lisp
 
 (use-package general
   :config
-  (general-evil-setup t))
+  (general-evil-setup t)
+  (general-create-definer mainkeys
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC" ;; set leader
+    :global-prefix "M-SPC")) ;; access leader in insert mode
+
 (elpaca-wait)
 
 #+end_src
 
-** buffers and bookmarks
+*** buffers and bookmarks
 #+begin_src elisp
 
-(nvmap :prefix "SPC"
-       "b b"   '(ibuffer :which-key "Ibuffer")
+(mainkeys
+       "b b"   '(switch-to-buffer :which-key "Switch buffer")
        "b k"   '(kill-current-buffer :which-key "Kill current buffer")
        "b l"   '(bookmark-bmenu-list :which-key "List bookmarks")
        "b n"   '(next-buffer :which-key "Next buffer")
        "b s"   '(bookmark-set :which-key "Set as a bookmark")
        "b w"   '(bookmark-save :which-key "Write bookmarks")
        "b p"   '(previous-buffer :which-key "Previous buffer")
+       "b i"   '(ibuffer :which-key "Ibuffer")
        "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
        "b K"   '(kill-buffer :which-key "Kill buffer"))
 
 #+end_src
 
-** files
+*** files
 
 #+begin_src elisp
 
-(nvmap :prefix "SPC"
+(mainkeys
     "d" '(dired-jump :which-key "Launch dired")
     "." '(find-file :which-key "find file")
     "f r" '(counsel-recentf :which-key "find recent file")
     "f s" '(counsel-swiper :which-key "Search in a file")
-    "r" '((lambda() (interactive) (load-file "~/.emacs.d/init.el"))
-    :which-key "reload emacs"))
+    "r" '((lambda() (interactive) (load-file "~/.emacs.d/init.el")) :wk "reload emacs")
+    "/" '(comment-line :wk "Comment lines"))
+
 
 #+end_src
 
-** languages
+*** languages
 Changing to secoundrey language only in the current buffer ~so other keybindings would work~
 
 #+begin_src elisp
 
-(nvmap :prefix "SPC"
+(mainkeys
     "a" '((lambda () (interactive) (set-input-method 'arabic)) :which-key "Switch to the secound language" )
     "e" '((lambda() (interactive) (set-input-method 'TeX)) :which-key "Switch to english language" ))
+
+#+end_src
+
+*** help !!
+need a help ? no problem describe is here
+#+begin_src elisp
+
+(mainkeys
+"h" '(:ignore t :wk "Help")
+   "h f" '(describe-function :wk "Describe function")
+   "h v" '(describe-variable :wk "Describe variable"))
 
 #+end_src
 
@@ -229,10 +252,10 @@ welocome screens are usless let's use dashboard instead.
 
 ;; Set default font
 (defun nt/set-font-faces()
-  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 151)
-  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 151)
-  (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 151))
-  (set-fontset-font t 'arabic "Omar 16")
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 100)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 100)
+  (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 100))
+  (set-fontset-font t 'arabic "Omar 12")
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -258,9 +281,9 @@ let's fix that :)
 
 #+BEGIN_SRC emacs-lisp
 
-;;(set-fontset-font "fontset-default"
-;		  'arabic
-;		  (font-spec :family "Amiri" :size 24 ))
+;; (set-fontset-font "fontset-default"
+		  ;; 'arabic
+		  ;; (font-spec :family "Omar" :size 16 ))
 
 ;; make RTL work will in org mode
 (defun set-bidi-env ()
@@ -282,6 +305,7 @@ use line numbers instead :)
 
 ;; line numbers
 (global-display-line-numbers-mode 1)
+(global-visual-line-mode t)
 
 #+END_SRC
 
@@ -371,6 +395,7 @@ make zomming in/out in emacs ~human friendly~
 (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
 #+end_src
+
 * Ivy and counsel
 a completion mechanisem for emacs.
 
@@ -385,6 +410,10 @@ a completion mechanisem for emacs.
 (use-package ivy
 :config (ivy-mode)
 (setq ivy-initial-inputs-alist nil))
+
+;; icons :)
+(use-package all-the-icons-ivy-rich
+  :init (all-the-icons-ivy-rich-mode 1))
 
 ;; ivy-rich
 (use-package ivy-rich
@@ -554,7 +583,7 @@ a good way for journaling (diary) in org mode
 
 #+begin_src elisp
 
-(nvmap :prefix "SPC"
+(mainkeys
    "o a" '(org-agenda :which-key "opens org agenda")
    "o w" '(org-agenda-list :which-key "agenda week view")
    "o j" '(org-journal-new-entry :which-key "a new journal file")
@@ -569,7 +598,7 @@ the best git client out there.
 
 (use-package magit
   :config
-  (nvmap :prefix "SPC"
+  (mainkeys :prefix "SPC"
     "g" '(magit-status :which-key "Opens magit")))
 (elpaca-wait)
 
@@ -581,10 +610,22 @@ it's like a cheatsheet for keybindings you hit the prefix and which key tells yo
 
 #+begin_src emacs-lisp
 
-  (use-package which-key
-    :config
-    (which-key-mode 1))
-  
+(use-package which-key
+  :config
+  (which-key-mode 1)
+  (setq which-key-side-window-location 'bottom
+	  which-key-sort-order #'which-key-key-order-alpha
+	  which-key-sort-uppercase-first nil
+	  which-key-add-column-padding 1
+	  which-key-max-display-columns nil
+	  which-key-min-display-lines 6
+	  which-key-side-window-slot -10
+	  which-key-side-window-max-height 0.25
+	  which-key-idle-delay 0.8
+	  which-key-max-description-length 25
+	  which-key-allow-imprecise-window-fit t
+	  which-key-separator " → " ))
+
 #+end_src
 
 * Emacs IDE
@@ -611,6 +652,7 @@ language server protocol ~auto complete for code~
   (setq lsp-idle-delay 0.500)
 
 #+end_src
+
 *** python
 using pyright ~you will need npm installed on your system~
 #+begin_src elisp
@@ -627,6 +669,7 @@ using pyright ~you will need npm installed on your system~
   (pyvenv-mode t))
 
 #+end_src
+
 ** company
 text completion framework
 #+begin_src emacs-lisp
@@ -649,6 +692,29 @@ text completion framework
 
 #+end_src
 
+** Vterm
+Terminal emulator in emacs
+#+begin_src elisp
+
+(use-package vterm)
+(use-package vterm-toggle
+  :after vterm
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (add-to-list 'display-buffer-alist
+               '((lambda (buffer-or-name _)
+                     (let ((buffer (get-buffer buffer-or-name)))
+                       (with-current-buffer buffer
+                         (or (equal major-mode 'vterm-mode)
+                             (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                  (display-buffer-reuse-window display-buffer-at-bottom)
+                  (reusable-frames . visible)
+                  (window-height . 0.3)))
+(mainkeys
+  "v" '(vterm-toggle :wk "toggle vterm")))
+#+end_src
+
 ** smartparens
 parenthesis auto closing
 #+begin_src elisp
@@ -656,6 +722,31 @@ parenthesis auto closing
 (use-package smartparens
   :config (smartparens-global-mode 1))
 #+end_src
+
+** sudoedit
+edit files as the root user
+#+begin_src elisp
+
+(use-package sudo-edit
+  :config
+    (mainkeys
+      "fu" '(sudo-edit-find-file :wk "Sudo find file")
+      "fU" '(sudo-edit :wk "Sudo edit file")))
+
+#+end_src
+
+** rainbow mode
+show hex color values
+#+begin_src elisp
+
+(use-package rainbow-mode
+  :config
+  (rainbow-mode 1)
+  :hook 
+  ((org-mode prog-mode) . rainbow-mode))
+
+#+end_src
+
 ** Languages support
 emacs doesnot support lua :( lets fix that.
 

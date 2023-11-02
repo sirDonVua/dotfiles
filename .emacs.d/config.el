@@ -45,9 +45,6 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-;;Turns off elpaca-use-package-mode current declaration
-(use-package emacs :elpaca nil :config (setq ring-bell-function #'ignore))
-
 (require 'use-package-ensure)
 (setq use-package-always-ensure t) ; always make sure that the packages are installed
 
@@ -62,33 +59,47 @@
 :config
 (evil-collection-init))
 
+(use-package evil-tutor)
+
 (use-package general
   :config
-  (general-evil-setup t))
+  (general-evil-setup t)
+  (general-create-definer mainkeys
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC" ;; set leader
+    :global-prefix "M-SPC")) ;; access leader in insert mode
+
 (elpaca-wait)
 
-(nvmap :prefix "SPC"
-       "b b"   '(ibuffer :which-key "Ibuffer")
+(mainkeys
+       "b b"   '(switch-to-buffer :which-key "Switch buffer")
        "b k"   '(kill-current-buffer :which-key "Kill current buffer")
        "b l"   '(bookmark-bmenu-list :which-key "List bookmarks")
        "b n"   '(next-buffer :which-key "Next buffer")
        "b s"   '(bookmark-set :which-key "Set as a bookmark")
        "b w"   '(bookmark-save :which-key "Write bookmarks")
        "b p"   '(previous-buffer :which-key "Previous buffer")
+       "b i"   '(ibuffer :which-key "Ibuffer")
        "b B"   '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
        "b K"   '(kill-buffer :which-key "Kill buffer"))
 
-(nvmap :prefix "SPC"
+(mainkeys
     "d" '(dired-jump :which-key "Launch dired")
     "." '(find-file :which-key "find file")
     "f r" '(counsel-recentf :which-key "find recent file")
     "f s" '(counsel-swiper :which-key "Search in a file")
-    "r" '((lambda() (interactive) (load-file "~/.emacs.d/init.el"))
-    :which-key "reload emacs"))
+    "r" '((lambda() (interactive) (load-file "~/.emacs.d/init.el")) :wk "reload emacs")
+    "/" '(comment-line :wk "Comment lines"))
 
-(nvmap :prefix "SPC"
+(mainkeys
     "a" '((lambda () (interactive) (set-input-method 'arabic)) :which-key "Switch to the secound language" )
     "e" '((lambda() (interactive) (set-input-method 'TeX)) :which-key "Switch to english language" ))
+
+(mainkeys
+"h" '(:ignore t :wk "Help")
+   "h f" '(describe-function :wk "Describe function")
+   "h v" '(describe-variable :wk "Describe variable"))
 
 (use-package dashboard
   :config
@@ -112,10 +123,10 @@
 
 ;; Set default font
 (defun nt/set-font-faces()
-  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 151)
-  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 151)
-  (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 151))
-  (set-fontset-font t 'arabic "Omar 16")
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 100)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 100)
+  (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 100))
+  (set-fontset-font t 'arabic "Omar 12")
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -133,9 +144,9 @@
 (set-face-attribute 'font-lock-keyword-face nil
   :slant 'italic)
 
-;;(set-fontset-font "fontset-default"
-;		  'arabic
-;		  (font-spec :family "Amiri" :size 24 ))
+;; (set-fontset-font "fontset-default"
+		  ;; 'arabic
+		  ;; (font-spec :family "Omar" :size 16 ))
 
 ;; make RTL work will in org mode
 (defun set-bidi-env ()
@@ -149,6 +160,7 @@
 
 ;; line numbers
 (global-display-line-numbers-mode 1)
+(global-visual-line-mode t)
 
 (use-package doom-themes
   :config
@@ -190,6 +202,10 @@
 (use-package ivy
 :config (ivy-mode)
 (setq ivy-initial-inputs-alist nil))
+
+;; icons :)
+(use-package all-the-icons-ivy-rich
+  :init (all-the-icons-ivy-rich-mode 1))
 
 ;; ivy-rich
 (use-package ivy-rich
@@ -280,7 +296,7 @@
         org-journal-date-format "%A, %d %B %Y"
         org-journal-file-format "%Y-%m-%d.org"))
 
-(nvmap :prefix "SPC"
+(mainkeys
    "o a" '(org-agenda :which-key "opens org agenda")
    "o w" '(org-agenda-list :which-key "agenda week view")
    "o j" '(org-journal-new-entry :which-key "a new journal file")
@@ -288,13 +304,25 @@
 
 (use-package magit
   :config
-  (nvmap :prefix "SPC"
+  (mainkeys :prefix "SPC"
     "g" '(magit-status :which-key "Opens magit")))
 (elpaca-wait)
 
 (use-package which-key
   :config
-  (which-key-mode 1))
+  (which-key-mode 1)
+  (setq which-key-side-window-location 'bottom
+	  which-key-sort-order #'which-key-key-order-alpha
+	  which-key-sort-uppercase-first nil
+	  which-key-add-column-padding 1
+	  which-key-max-display-columns nil
+	  which-key-min-display-lines 6
+	  which-key-side-window-slot -10
+	  which-key-side-window-max-height 0.25
+	  which-key-idle-delay 0.8
+	  which-key-max-description-length 25
+	  which-key-allow-imprecise-window-fit t
+	  which-key-separator " → " ))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -341,8 +369,38 @@
   :after company
   :hook (company-mode . company-box-mode))
 
+(use-package vterm)
+(use-package vterm-toggle
+  :after vterm
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (add-to-list 'display-buffer-alist
+               '((lambda (buffer-or-name _)
+                     (let ((buffer (get-buffer buffer-or-name)))
+                       (with-current-buffer buffer
+                         (or (equal major-mode 'vterm-mode)
+                             (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                  (display-buffer-reuse-window display-buffer-at-bottom)
+                  (reusable-frames . visible)
+                  (window-height . 0.3)))
+(mainkeys
+  "v" '(vterm-toggle :wk "toggle vterm")))
+
 (use-package smartparens
   :config (smartparens-global-mode 1))
+
+(use-package sudo-edit
+  :config
+    (mainkeys
+      "fu" '(sudo-edit-find-file :wk "Sudo find file")
+      "fU" '(sudo-edit :wk "Sudo edit file")))
+
+(use-package rainbow-mode
+  :config
+  (rainbow-mode 1)
+  :hook 
+  ((org-mode prog-mode) . rainbow-mode))
 
 (use-package lua-mode)
 (use-package nix-mode

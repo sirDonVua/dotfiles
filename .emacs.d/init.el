@@ -13,7 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(nix-mode company-box company lsp-mode visual-fill-column mixed-pitch lsp-pyright pyvenv python-mode lsp-ui company-jedi lua-mode which-key magit org-journal org-auto-tangle toc-org org-modern all-the-icons-dired ivy-rich counsel beacon doom-modeline doom-themes all-the-icons dashboard general evil-collection evil use-package))
- '(warning-suppress-types '((comp) (comp) (comp))))
+ '(warning-suppress-types '((emacs) (emacs) (comp) (comp) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

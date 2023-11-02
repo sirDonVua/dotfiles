@@ -1,5 +1,5 @@
 super + b
-    thorium-browser
+    $HOME/.local/bin/thorium-browser
 
 super + e
       emacsclient -c -a 'emacs'

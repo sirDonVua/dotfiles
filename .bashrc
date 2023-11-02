@@ -38,7 +38,7 @@ export LESS='-R --use-color -Dd+r$Du+b' # some colors in less
 
 # setting an editor and a manpager
 isthere vim "export EDITOR='vim'" "export EDITOR='nano'"
-isthere bat "manpager bat" "manpager less" && alias cat='bat'
+isthere bat "manpager less" "manpager less" && alias cat='bat'
 
 # => Aliasis
 #package mnagers
