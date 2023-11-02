@@ -95,11 +95,14 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
-                widget.GroupBox(),
+                widget.GroupBox(active=colors["purple"],
+                                inactive=colors["cyan"],
+                                this_current_screen_border =colors["pink"],),
+                
                 widget.WindowName(format='{name}',max_chars=30),
                 widget.Chord(
                     chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
+                        "launch": (colors["red"], colors["white"]),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
