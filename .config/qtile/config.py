@@ -72,9 +72,15 @@ groups = [Group(i) for i in "ABCD"] #group names
 dgroups_key_binder = simple_key_binder("mod4") # mod + group num to switch to it
 
 #layouts
+layout_theme = {
+    "border_focus": [colors["purple"]],
+    "border_normal": [colors["black"]],
+    "border_width": 4,
+    "margin": 4
+}
 layouts = [
-    layout.RatioTile(border_focus=[colors["purple"]]),
-    layout.Columns(border_focus=[colors["purple"]]),
+    layout.RatioTile(**layout_theme),
+    layout.Columns(**layout_theme),
 ]
 
 widget_defaults = dict(
@@ -107,7 +113,7 @@ screens = [
             24,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-            background=[colors["purple-sky"]]
+            background=[colors["semi-black"]]
         ),
     ),
 ]
