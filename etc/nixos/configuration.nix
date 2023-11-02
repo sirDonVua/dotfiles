@@ -123,6 +123,7 @@
     nitrogen
     evince
     betterlockscreen
+    zoom-us
     
     # windowmanager stuff
     polkit
