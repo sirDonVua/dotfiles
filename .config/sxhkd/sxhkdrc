@@ -10,6 +10,8 @@ alt + space
 super + Delete
     lxsession-logout &
 
+super + BackSpace
+      betterlockscreen -l
 @Print
     flameshot gui
 
@@ -19,10 +21,6 @@ XF86Audio{Raise,Lower}Volume
 XF86AudioMute
 	$HOME/.local/bin/changevolume mute
 	
-#my rofi scripts
-shift + super + space
-    rofi-scripts #a bash script in my .local/bin
-
 super + r
     rofi -show drun
 
