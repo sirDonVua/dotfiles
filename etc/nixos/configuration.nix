@@ -17,7 +17,7 @@
   hardware.opentabletdriver.enable = true;
 
   # Nvidia Drivers
- # Enable OpenGL
+  # Enable OpenGL
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -48,7 +48,7 @@
     open = true;
 
     # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+	  # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
@@ -119,7 +119,7 @@
     sxiv
     celluloid
     rofi
-    emacs
+    emacs29
     nitrogen
     evince
     betterlockscreen
@@ -128,7 +128,7 @@
     # windowmanager stuff
     polkit
     lxsession
-    picom
+    picom-jonaburg
 
     #home-manager
     home-manager
@@ -230,6 +230,7 @@
   
   #picom
   services.picom.enable = true;
+
 
   # nix flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
