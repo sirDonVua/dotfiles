@@ -197,6 +197,7 @@
 (use-package counsel
 :after ivy
 :config (counsel-mode))
+(elpaca-wait)
 
 ;; ivy
 (use-package ivy

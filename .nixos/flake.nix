@@ -12,7 +12,7 @@
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-      pkgs = nixpkgs.leagacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages.${system};
     in {
 
       nixosConfigurations = {
@@ -22,7 +22,7 @@
         };
       };
       homeConfigurations = {
-        vex = home-manager.lib.homeManagerConfigurations{
+        vex = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
             modules = [ ./home.nix ];
         };

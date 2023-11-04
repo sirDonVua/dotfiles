@@ -9,7 +9,8 @@ configuration {
 
 }
 
-@theme "theme.rasi"
+//@theme "theme.rasi"
 
 
 
+@theme "/home/vex/.local/share/rofi/themes/simple-tokyonight.rasi"
