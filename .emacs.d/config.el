@@ -108,6 +108,8 @@
   (use-package all-the-icons)
   (use-package nerd-icons)
   (setq dashboard-icon-type 'nerd-icons) ;; use `all-the-icons' package
+  (elpaca-wait)
+
   (setq dashboard-display-icons-p t) ;; icons for the emacs client
   (setq dashboard-set-file-icons t)
   ;; icons for the emacs client
@@ -125,7 +127,7 @@
 (defun nt/set-font-faces()
   (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 100)
   (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 100)
-  (set-face-attribute 'variable-pitch nil :font "UbuntuMono Nerd Font 16" :height 100))
+  (set-face-attribute 'variable-pitch nil :font "Hurmit Nerd Font 16" :height 100))
   (set-fontset-font t 'arabic "Omar 12")
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
@@ -193,19 +195,24 @@
 (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
 (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
-;; counsel
-(use-package counsel
-:after ivy
-:config (counsel-mode))
-(elpaca-wait)
-
 ;; ivy
 (use-package ivy
 :config (ivy-mode)
 (setq ivy-initial-inputs-alist nil))
 
+;; swiper
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)))
+
+;; counsel
+(use-package counsel
+:after ivy
+:config (counsel-mode))
+
 ;; icons :)
 (use-package all-the-icons-ivy-rich
+  :after all-the-icons
   :init (all-the-icons-ivy-rich-mode 1))
 
 ;; ivy-rich
@@ -217,13 +224,8 @@
    ivy-rich-path-style 'abbrev)
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer
-                               'ivy-rich-switch-buffer-transformer)
+			       'ivy-rich-switch-buffer-transformer)
   (ivy-rich-mode 1)) ;; this gets us descriptions in M-x.
-
-;; swiper
-(use-package swiper
-  :after ivy
-  :bind (("C-s" . swiper)))
 
 (use-package all-the-icons-dired
   :config

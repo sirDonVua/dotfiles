@@ -13,8 +13,9 @@
   # environment.
   home.packages = [
 
-    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "CascadiaCode" "Inconsolata" "Hermit" "JetBrainsMono" ]; })
-
+    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "CascadiaCode" "Inconsolata" "Hurmit" "JetBrainsMono" ];
+                             }
+                               )
   ];
 
   # gtk
@@ -27,7 +28,7 @@
   };
 
   home.sessionVariables = {
-    EDITOR = "emacs";
+    EDITOR = "emacsclient";
   };
 
   # global mouse cursor
@@ -38,7 +39,7 @@
     x11.enable = true;
     gtk.enable = true ;
   };
-    
-    # Let Home Manager install and manage itself.
-    programs.home-manager.enable = true;
+  
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
 }
