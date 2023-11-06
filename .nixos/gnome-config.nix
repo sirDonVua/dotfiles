@@ -51,8 +51,10 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.windowManager.qtile.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.theme = "${import ./sddm-sugar-dark.nix {inherit pkgs;}}";
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.sddm.theme = "${import ./sddm-sugar-dark.nix {inherit pkgs;}}";
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
 
   # Configure keymap in X11
   services.xserver.layout = "us";
@@ -67,9 +69,15 @@
   services.udisks2.enable = true;
 
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # Enable pipewire for sound.
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
@@ -91,26 +99,15 @@
     # base utils
     alacritty
     brave
-    xfce.thunar
-    xfce.thunar-archive-plugin
-    sxiv
-    celluloid
     rofi
     emacs29
-    nitrogen
-    evince
-    betterlockscreen
-    feh
     zoom-us
     
     # windowmanager stuff
-    polkit
-    lxsession
-    picom-jonaburg
+    picom
 
     #home-manager
     home-manager
-    dconf
 
     #distrobox
     distrobox
@@ -185,6 +182,39 @@
     appimage-run
     
   ];
+  # gnomes stuff
+  environment.gnome.excludePackages = (with pkgs; [
+  gnome-photos
+  gnome-tour
+]) ++ (with pkgs.gnome; [
+  cheese # webcam tool
+  gnome-music
+  gnome-terminal
+  gedit # text editor
+  epiphany # web browser
+  geary # email reader
+  evince # document viewer
+  gnome-characters
+  totem # video player
+  tali # poker game
+  iagno # go game
+  hitori # sudoku game
+  atomix # puzzle game
+]);
+
+  # gnome extensions
+  environment.systemPackages = with gnomeExtensions; [
+dash-to-dock
+applications-menu
+blur-my-shell
+arc-menu
+gnome-40-ui-improvements
+clipboard-indicator-2
+quick-settings-tweaker
+coverflow-alt-tab
+just-perfection
+
+  ];
   
   # appimages
   boot.binfmt.registrations.appimage = {
@@ -228,6 +258,12 @@
 
   # dbus
   services.dbus.enable = true;
+
+  #dconf
+  programs.dconf.enable = true;
+
+  # gnome settings deamon
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # nix flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

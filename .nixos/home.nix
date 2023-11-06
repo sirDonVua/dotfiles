@@ -13,7 +13,7 @@
   # environment.
   home.packages = [
 
-    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "CascadiaCode" "Inconsolata" "Hurmit" "JetBrainsMono" ];
+    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "CascadiaCode" "Inconsolata" "Hack" "JetBrainsMono" ];
                              }
                                )
   ];

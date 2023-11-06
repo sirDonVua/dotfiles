@@ -1,4 +1,3 @@
-
 { pkgs } :
 let
   imgLink = "https://raw.githubusercontent.com/sirDonVua/wallpapers/main/14.jpg";
