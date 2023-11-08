@@ -125,10 +125,10 @@
 
 ;; Set default font
 (defun nt/set-font-faces()
-  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 100)
-  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 100)
-  (set-face-attribute 'variable-pitch nil :font "Hurmit Nerd Font 16" :height 100))
-  (set-fontset-font t 'arabic "Omar 12")
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 150)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 150)
+  (set-face-attribute 'variable-pitch nil :font "FantasqueSansM Nerd Font 16" :height 150))
+  (set-fontset-font t 'arabic "Omar 16")
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -378,7 +378,7 @@
   :config
   (setq vterm-toggle-fullscreen-p nil)
   (setq vterm-toggle-scope 'project)
-  (add-to-list 'display-buffer-alist
+ (add-to-list 'display-buffer-alist
                '((lambda (buffer-or-name _)
                      (let ((buffer (get-buffer buffer-or-name)))
                        (with-current-buffer buffer

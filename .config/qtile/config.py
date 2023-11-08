@@ -1,4 +1,3 @@
-
 import os
 import subprocess as sp
 from libqtile import bar, layout, widget, hook

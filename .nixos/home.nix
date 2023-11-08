@@ -27,8 +27,75 @@
     font.size = 12;
   };
 
-  home.sessionVariables = {
-    EDITOR = "emacsclient";
+  # dconf (gnome)
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      clock-show-seconds = true;
+      clock-show-weekday = true;
+      color-scheme = "prefer-dark";
+      enable-hot-corners = false;
+      font-antialiasing = "grayscale";
+      font-hinting = "slight";
+      gtk-theme = "Dracula";
+      toolkit-accessibility = true;
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      activate-window-menu = "disabled";
+      toggle-message-tray = "disabled";
+      close = ["<Super>q"];
+      toggle-maximized = ["<Super>f"];
+      unmaximize = "disabled";
+    };
+    "org/gnome/desktop/wm/preferences" = {
+      button-layout = ":";
+      num-workspaces = 5;
+      focus-new-windows = "smart";
+      raise-on-click = false;
+      auto-raise = true;
+      focus-mode = "mouse";
+
+    };
+    "org/gnome/desktop/peripherals/touchpad" = {
+      tap-to-click = true;
+      two-finger-scrolling-enabled = true;
+    };
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+      ];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "Terminal";
+      command = "alacritty";
+      binding = "<Super>Return";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+      name = "emacs";
+      command = "emacsclient -c -a emacs";
+      binding = "<Super>e";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      name = "thorium";
+      command = "/home/vex/.local/bin/thorium-browser";
+      binding = "<Super>b";
+    };
+  };
+
+
+  # emacs
+  services.emacs = {
+    enable = true;
+    startWithUserSession = true; # start emacs server
+  };
+
+  programs.emacs = {
+    enable = true;
+    extraPackages = epkgs: [
+      epkgs.vterm
+    ];
   };
 
   # global mouse cursor
@@ -39,7 +106,7 @@
     x11.enable = true;
     gtk.enable = true ;
   };
-  
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

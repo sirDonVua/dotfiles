@@ -27,9 +27,9 @@
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = true;
+    open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -54,6 +54,7 @@
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.displayManager.sddm.theme = "${import ./sddm-sugar-dark.nix {inherit pkgs;}}";
   services.xserver.desktopManager.gnome.enable = true;
+  services.gnome.core-utilities.enable = false;
   services.xserver.displayManager.gdm.enable = true;
 
   # Configure keymap in X11
@@ -71,6 +72,7 @@
 
   # Enable pipewire for sound.
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -95,16 +97,14 @@
   
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     # base utils
     alacritty
     brave
-    rofi
     emacs29
     zoom-us
     
     # windowmanager stuff
-    picom
 
     #home-manager
     home-manager
@@ -142,9 +142,7 @@
     cbatticon
     aria2
     pamixer
-    flameshot
     bashmount
-    redshift
     unzip
     git
     gh
@@ -158,9 +156,6 @@
     mtpfs
 
     #wine
-    wineWowPackages.stable
-    wineWowPackages.staging
-    winetricks
 
     #programming
     python3Full
@@ -180,42 +175,41 @@
 
     # appimages
     appimage-run
+
+    # gnome Apps
+    gnome-extension-manager
+    gnome-photos
     
-  ];
-  # gnomes stuff
-  environment.gnome.excludePackages = (with pkgs; [
-  gnome-photos
-  gnome-tour
-]) ++ (with pkgs.gnome; [
-  cheese # webcam tool
-  gnome-music
-  gnome-terminal
-  gedit # text editor
-  epiphany # web browser
-  geary # email reader
-  evince # document viewer
-  gnome-characters
-  totem # video player
-  tali # poker game
-  iagno # go game
-  hitori # sudoku game
-  atomix # puzzle game
-]);
+  ]) ++ (with pkgs.gnome; [
+    geary # email reader
+    evince # document viewer
+    baobab      # disk usage analyzer
+    eog         # image viewer
+    evince      # document viewer
+    file-roller # archive manager
+    geary       # email client
+    totem # video player
+    nautilus # file manager
+    gnome-tweaks # gnome tweak tool
+    gnome-calculator # calculator
 
-  # gnome extensions
-  environment.systemPackages = with gnomeExtensions; [
-dash-to-dock
-applications-menu
-blur-my-shell
-arc-menu
-gnome-40-ui-improvements
-clipboard-indicator-2
-quick-settings-tweaker
-coverflow-alt-tab
-just-perfection
-
-  ];
+    # gnome extensions
+  ]) ++ (with pkgs.gnomeExtensions; [
+    dash-to-dock
+    applications-menu
+    blur-my-shell
+    arc-menu
+    gnome-40-ui-improvements
+    clipboard-indicator-2
+    quick-settings-tweaker
+    coverflow-alt-tab
+    just-perfection
+    forge
+    burn-my-windows
+    
+  ]);
   
+
   # appimages
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
@@ -228,10 +222,6 @@ just-perfection
 
   #flatpak
   services.flatpak.enable = true;
-  xdg.portal= {
-    enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-gtk];
-  };
 
   # Podman for distrobox
   virtualisation = {
@@ -252,7 +242,7 @@ just-perfection
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  
+
   #picom
   services.picom.enable = true;
 
