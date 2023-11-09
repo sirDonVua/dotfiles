@@ -18,13 +18,19 @@
       nixosConfigurations = {
         nixos = lib.nixosSystem{
           inherit system;
-            modules = [ ./gnome-config.nix ];
+          modules = [
+            ./modules/nixos/default.nix
+            ./modules/packages/base.nix
+            ./modules/packages/gnome.nix
+            ./modules/video-driver/nvidia.nix
+          ];
         };
       };
+
       homeConfigurations = {
         vex = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-            modules = [ ./home.nix ];
+          modules = [ ./modules/home-manager/home.nix ];
         };
       };
     };
