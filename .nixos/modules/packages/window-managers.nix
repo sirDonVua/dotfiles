@@ -17,8 +17,9 @@
     copyq
     nitrogen
     flameshot
+    rofi-power-menu
     
-    picom
+    picom-jonaburg
     polkit
     lxsession
     openbox-menu

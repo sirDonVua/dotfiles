@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 lxsession &
 redshift &
-picom &
+picom --experimental-backend &
 copyq &
 nitrogen --restore &
 emacs --daemon &

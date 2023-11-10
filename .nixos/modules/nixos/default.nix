@@ -95,9 +95,6 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   
-  #picom
-  services.picom.enable = true;
-
   # dbus
   services.dbus.enable = true;
 

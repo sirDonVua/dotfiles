@@ -125,10 +125,10 @@
 
 ;; Set default font
 (defun nt/set-font-faces()
-  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 150)
-  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 150)
-  (set-face-attribute 'variable-pitch nil :font "FantasqueSansM Nerd Font 16" :height 150))
-  (set-fontset-font t 'arabic "Omar 16")
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font 14" :height 100)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono Nerd Font 14" :height 100)
+  (set-face-attribute 'variable-pitch nil :font "FantasqueSansM Nerd Font 16" :height 100))
+  ;; (set-fontset-font t 'arabic "ElMessiri 25")
 ;; if the buffer is a daemon it will fix the daemon fonts.
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -146,9 +146,9 @@
 (set-face-attribute 'font-lock-keyword-face nil
   :slant 'italic)
 
-;; (set-fontset-font "fontset-default"
-		  ;; 'arabic
-		  ;; (font-spec :family "Omar" :size 16 ))
+(set-fontset-font "fontset-default"
+		   'arabic
+		   (font-spec :family "ElMessiri" :size 24 ))
 
 ;; make RTL work will in org mode
 (defun set-bidi-env ()

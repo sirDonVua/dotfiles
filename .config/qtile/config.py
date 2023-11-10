@@ -8,7 +8,13 @@ from libqtile.dgroups import simple_key_binder
 
 mod = "mod4"
 terminal = guess_terminal()
-font = "CascadiaCove Nerd Font"
+font = "JetBrainsMono Nerd Font"
+home = os.path.expanduser('~')
+wifi = os.path.join(home,".local/bin/rofi-wifi-menu")
+exit_command = "rofi -show powermenu -theme ~/.local/share/rofi/themes/nord.rasi -modi powermenu:rofi-power-menu"
+def change_kblayout():
+    qtile.cmd_spawn("sh -c ~/.local/bin/switchlang")
+
 colors = {
     "black":"#282a36",
     "semi-black":"#44475a",
@@ -20,7 +26,8 @@ colors = {
     "pink":"#ff79c6",
     "purple":"#bd93f9",
     "red":"#ff5555",
-    "yellow":"#f1fa8c"
+    "yellow":"#f1fa8c",
+    "bar":"#44475aB3"
 } #This is the offical dracula theme platte
   #and please ignore the naming
 
@@ -67,7 +74,12 @@ keys = [
 ]
 
 #Groups
-groups = [Group(i) for i in "ABCD"] #group names
+
+# groups = [Group(i) for i in "ABCD"] #group names
+# groups = [Group(i) for i in "" ] #group icons
+groups = [Group(f"{i+1}", label="󰏃") for i in range(4)]
+
+
 dgroups_key_binder = simple_key_binder("mod4") # mod + group num to switch to it
 
 #layouts
@@ -77,9 +89,11 @@ layout_theme = {
     "border_width": 4,
     "margin": 4
 }
+
 layouts = [
     layout.RatioTile(**layout_theme),
     layout.Columns(**layout_theme),
+    layout.Floating(**layout_theme),
 ]
 
 widget_defaults = dict(
@@ -93,29 +107,44 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
+                widget.LaunchBar(progs=[(" Apps","rofi -show drun")],foreground=colors["green"]),
                 widget.GroupBox(active=colors["purple"],
                                 inactive=colors["cyan"],
+                                highlight_method='line',
+                                highlight_color=colors["black"],
                                 this_current_screen_border =colors["pink"],),
                 
-                widget.WindowName(format='{name}',max_chars=30),
+                widget.WindowName(format='{name}',max_chars=30,foreground=colors['yellow']),
+
                 widget.Chord(
                     chords_colors={
                         "launch": (colors["red"], colors["white"]),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
+
                 widget.Clock(format="%I:%M %p %m-%d %a ",foreground=colors["cyan"]),
-                widget.Spacer(length=760),
-                widget.Systray(),
-                widget.LaunchBar(progs=[("󰿅 exit","lxsession-logout")]),
+                widget.Spacer(lenght=700),
+                # widget.Systray(background=colors["semi-black"]),
+                widget.Sep(),
+                widget.LaunchBar(progs=[("󰤥 ",wifi)],foreground=colors["cyan"]),
+                widget.Sep(),
+                widget.LaunchBar(progs=[("","blueman-manager")],foreground=colors["cyan"]),
+                widget.Sep(),
+                widget.TextBox("󰂁"),
+                widget.Battery(format='{char} {percent:2.0%}',update_interval=1),
+                widget.Sep(),
+                widget.KeyboardLayout(foreground=colors["orange"],update_interval=0.1,
+                                                          mouse_callbacks={"Button1":change_kblayout},), 
+                widget.Sep(),
+                widget.LaunchBar(progs=[("󰿅 exit",exit_command)],foreground=colors["red"]),
+                widget.CurrentLayoutIcon(),
             ],
             24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-            background=[colors["semi-black"]]
+            border_color = colors["bar"],
+            border_width = [3,5,3,5],
+            margin = [3,30,3,30],
+            background=[colors["bar"]]
         ),
     ),
 ]
@@ -166,5 +195,5 @@ wmname = "LG3D"
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/.config/qtile/script.sh')
-    sp.Popen([home])
+    script =  os.path.expanduser('~/.config/qtile/script.sh')
+    sp.Popen([script])

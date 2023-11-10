@@ -8,7 +8,7 @@ alt + space
     copyq show
 
 super + Delete
-    lxsession-logout &
+    rofi -show powermenu -theme ~/.local/share/rofi/themes/nord.rasi -modi powermenu:rofi-power-menu &
 
 super + BackSpace
       betterlockscreen -l

@@ -37,7 +37,7 @@ export TERM="xterm-256color"     # getting proper colors
 export LESS='-R --use-color -Dd+r$Du+b' # some colors in less
 
 # setting an editor and a manpager
-isthere vim "export EDITOR='vim'" "export EDITOR='nano'"
+isthere emacs "export EDITOR='emacsclient -c -a emacs'" "export EDITOR='vim'"
 isthere bat "manpager less" "manpager less" && alias cat='bat'
 
 # => Aliasis
@@ -58,12 +58,14 @@ isthere zoxide 'eval "$(zoxide init bash)"' && alias cd='z'
 #files and dir
 alias cp='cp -ir'
 alias mv='mv -i '
-alias rm='rm -i'
-alias rmdir='/usr/bin/rm -r'
+alias rm='trash'
 alias mkdir='mkdir -pv'
 
 #grep
 alias grep="grep --color=auto"
+
+#emacs
+alias em="emacsclient -c -a emacs"
 #-----------------------------------------------
 
 # => Fancy Stuff

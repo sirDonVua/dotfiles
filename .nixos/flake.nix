@@ -21,8 +21,8 @@
           modules = [
             ./modules/nixos/default.nix
             ./modules/packages/base.nix
-            ./modules/packages/gnome.nix
             ./modules/video-driver/nvidia.nix
+            ./modules/packages/window-managers.nix
           ];
         };
       };
