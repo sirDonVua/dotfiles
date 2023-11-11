@@ -17,7 +17,6 @@
     baobab      # disk usage analyzer
     evince      # document viewer
     file-roller # archive manager
-    nautilus # file manager
     gnome-tweaks # gnome tweak tool
 
     # gnome extensions

@@ -27,8 +27,10 @@
     font.size = 12;
   };
 
-  # dconf (gnome)
+  # gtk4 theme
+ home.sessionVariables.GTK_THEME = "Dracula";
 
+  # dconf (gnome)
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       clock-show-seconds = true;

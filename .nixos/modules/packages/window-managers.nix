@@ -6,13 +6,15 @@
   services.xserver.windowManager.qtile.enable = true;
   services.xserver.windowManager.openbox.enable = true;
   services.xserver.windowManager.awesome.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.theme = "${import ./sddm-sugar-dark.nix {inherit pkgs;}}";
+
+  # sddm login manager
+  services.xserver.displayManager.sddm = {
+    enable = true;
+    theme = "${import ./sddm-sugar-candy.nix {inherit pkgs;}}";
+  };
 
   environment.systemPackages =  with pkgs; [
     
-    xfce.thunar
-    xfce.thunar-archive-plugin
     betterlockscreen
     copyq
     nitrogen

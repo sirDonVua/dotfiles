@@ -10,6 +10,7 @@
   emacs
   evince
   gnome.gnome-calculator
+  gnome.nautilus
   gnome.eog # gnome photos
   zoom-us
 
@@ -41,6 +42,7 @@
   btop
   lsd
   bat
+  trash-cli
   stow
   zoxide
   pfetch
@@ -56,6 +58,7 @@
   unzip
   git
   gh
+  duf
   dunst
   bash-completion
   networkmanagerapplet
@@ -75,6 +78,7 @@
   # Drawing
   opentabletdriver
   xournalpp
+  openboard
 
   # appimages
   appimage-run
