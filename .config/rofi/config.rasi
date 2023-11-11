@@ -4,7 +4,7 @@ configuration {
     show-icons : true;
     icon-theme: "Papirus-dark";
     drun-display-format: "{icon} {name}";
-    font: "CaskaydiaCove Nerd Font 10";
+    font: "JetBrainsMono Nerd Font 10";
 
 
 }
