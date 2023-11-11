@@ -185,6 +185,8 @@
 
 (setq vc-handled-backends nil)
 
+(setq ring-bell-function 'ignore)
+
 (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling

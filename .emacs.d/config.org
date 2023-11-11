@@ -19,6 +19,7 @@
   - [[#-files][~ files]]
   - [[#compiler-messages][Compiler messages]]
   - [[#symlinks][symlinks]]
+  - [[#annoying-bell][annoying bell]]
   - [[#scrolling][scrolling]]
   - [[#zooming-in-and-out][zooming in and out]]
 - [[#ivy-and-counsel][Ivy and counsel]]
@@ -375,6 +376,12 @@ make emacs always follow symlinks
 
 #+end_src
 
+** annoying bell
+#+begin_src elisp
+
+(setq ring-bell-function 'ignore)
+
+#+end_src
 ** scrolling
 scrolling in emacs is just so bad
 
