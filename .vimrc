@@ -92,6 +92,9 @@ Plug 'vifm/vifm.vim' "vi file manger
 Plug 'jreybert/vimagit' "git client
 Plug 'christoomey/vim-system-copy' "access to system clipboard
 Plug 'dylanaraps/wal.vim'
+Plug 'jceb/vim-orgmode'
+Plug 'chrisbra/NrrwRgn'
+Plug 'inkarkat/vim-SyntaxRange'
 Plug 'dracula/vim', { 'as': 'dracula' } "dracula theme
 
 call plug#end()

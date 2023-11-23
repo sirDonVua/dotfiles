@@ -1,85 +1,121 @@
 { pkgs, ... } :
 
 {
+
+fonts = {
+  enableDefaultFonts = true;
+  fonts = with pkgs; [ 
+    powerline-fonts
+    vazir-fonts
+  ];
+
+  fontconfig = {
+    defaultFonts = {
+      serif = [ "Vazirmatn" "JetBrainsMono" ];
+      sansSerif = [ "Vazirmatn" "JetBrainsMono" ];
+      monospace = [ "JetBrainsMono" ];
+    };
+  };
+};
+
   environment.systemPackages = with pkgs; [
 
-  alacritty
-  brave
-  celluloid
-  rofi
-  emacs
-  evince
-  gnome.gnome-calculator
-  gnome.nautilus
-  gnome.eog # gnome photos
-  zoom-us
+    #core
+    llvmPackages.bintools
+    killall
+    brightnessctl
+    light
+    xdg-utils
+    cmatrix
+    lavat
 
-  #home-manager
-  home-manager
-  dconf
+    #gui
+    alacritty
+    firefox
+    celluloid
+    rofi
+    emacs29
+    evince
+    gnome.gnome-calculator
+    gnome.nautilus
+    gnome.eog # gnome photos
+    zoom-us
 
-  #distrobox
-  distrobox
-  podman
-  xorg.xhost
+    #home-manager
+    home-manager
+    dconf
 
-  # Themeing
-  gnome.adwaita-icon-theme
-  shared-mime-info
-  papirus-icon-theme
-  dracula-theme
-  bibata-cursors
-  papirus-folders
-  papirus-icon-theme
-  libsForQt5.qt5.qtquickcontrols2   
-  libsForQt5.qt5.qtgraphicaleffects
+    #distrobox
+    distrobox
+    podman
+    xorg.xhost
+
+    # Themeing
+    gnome.adwaita-icon-theme
+    shared-mime-info
+    papirus-icon-theme
+    dracula-theme
+    bibata-cursors
+    papirus-folders
+    papirus-icon-theme
+    libsForQt5.qt5.qtquickcontrols2   
+    libsForQt5.qt5.qtgraphicaleffects
 
 
-  # cli & tui
-  sxhkd
-  vim
-  vifm
-  btop
-  lsd
-  bat
-  trash-cli
-  stow
-  zoxide
-  pfetch
-  neofetch
-  starship
-  wget 
-  plocate
-  cbatticon
-  aria2
-  pamixer
-  bashmount
-  redshift
-  unzip
-  git
-  gh
-  duf
-  dunst
-  bash-completion
-  networkmanagerapplet
+    # cli & tui
+    sxhkd
+    vim
+    vifm
+    btop
+    lsd
+    bat
+    trash-cli
+    stow
+    zoxide
+    pfetch
+    neofetch
+    starship
+    wget 
+    plocate
+    cbatticon
+    aria2
+    pamixer
+    bashmount
+    redshift
+    unzip
+    git
+    gh
+    yad
+    tldr
+    duf
+    dunst
+    bash-completion
+    networkmanagerapplet
 
-  #programming
-  python3Full
-  nodejs
-  gnumake
-  cmake
+    #programming
+    python3Full
+    nodejs
+    gnumake
+    cmake
+    pyright
+    rnix-lsp
 
-  # sys libs 
-  nix-index
-  xorg.xev
-  libtool
-  vulkan-tools
+    # sys libs 
+    nix-index
+    xorg.xev
+    libtool
+    vulkan-tools
 
-  # Drawing
-  opentabletdriver
-  xournalpp
-  openboard
+    # Drawing
+    opentabletdriver
+    xournalpp
+    openboard
 
-  # appimages
-  appimage-run
-  ];}
+    # appimages
+    appimage-run
+
+    # battrey
+    powertop
+    cpupower-gui
+  ];
+}

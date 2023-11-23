@@ -4,13 +4,7 @@ configuration {
     show-icons : true;
     icon-theme: "Papirus-dark";
     drun-display-format: "{icon} {name}";
-    font: "JetBrainsMono Nerd Font 10";
-
-
+    font: "JetBrainsMono Nerd Font 12";
 }
 
-//@theme "theme.rasi"
-
-
-
-@theme "/home/vex/.local/share/rofi/themes/simple-tokyonight.rasi"
+@theme "dmenu.rasi"

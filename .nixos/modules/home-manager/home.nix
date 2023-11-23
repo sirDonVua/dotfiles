@@ -1,10 +1,10 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, user, ... }:
+let user = "vex"; in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "vex";
-  home.homeDirectory = "/home/vex";
+  home.username = "${user}";
+  home.homeDirectory = "/home/${user}";
 
   # Do not change !!
   home.stateVersion = "22.11"; # Please read the comment before changing.
@@ -13,7 +13,7 @@
   # environment.
   home.packages = [
 
-    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "CascadiaCode" "Inconsolata" "Hack" "JetBrainsMono" ];
+    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "CascadiaCode" "JetBrainsMono" ];
                              }
                                )
   ];
@@ -28,7 +28,7 @@
   };
 
   # gtk4 theme
- home.sessionVariables.GTK_THEME = "Dracula";
+  home.sessionVariables.GTK_THEME = "Dracula";
 
   # dconf (gnome)
   dconf.settings = {
@@ -81,7 +81,7 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
       name = "thorium";
-      command = "/home/vex/.local/bin/thorium-browser";
+      command = "/home/${user}/.local/bin/thorium-browser";
       binding = "<Super>b";
     };
   };
@@ -95,10 +95,12 @@
 
   programs.emacs = {
     enable = true;
+    package = pkgs.emacs29;
     extraPackages = epkgs: [
       epkgs.vterm
     ];
   };
+
 
   # global mouse cursor
   home.pointerCursor = {

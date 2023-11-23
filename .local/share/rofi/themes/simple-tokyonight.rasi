@@ -29,7 +29,7 @@ blue    : #62d6e8;
 magenta : #b45bcf; 
 cyan    : #a1efe4;
 
-accent: @red;
+accent: @magenta;
 urgent: @yellow;
 
 background-color : transparent;
@@ -51,7 +51,7 @@ x-offset : 4px;
 y-offset : 35px;
 
 background-color: @bg1;
-border: 1px;
+border: 4px;
 border-color: @bg3;
 border-radius: 6px;
 }

@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, user, ... }:
 
 {
 
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./battrey.nix
     ];
 
   #hardware suoport
@@ -56,9 +57,10 @@
   services.xserver.libinput.touchpad.naturalScrolling = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.vex = {
+  users.users.${user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+    initialPassword = "1234";
     packages = with pkgs; [
       tree
       curl

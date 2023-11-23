@@ -1,19 +1,38 @@
+#  ___                            _       
+# |_ _|_ __ ___  _ __   ___  _ __| |_ ___ 
+#  | || '_ ` _ \| '_ \ / _ \| '__| __/ __|
+#  | || | | | | | |_) | (_) | |  | |_\__ \
+# |___|_| |_| |_| .__/ \___/|_|   \__|___/
+#               |_|                       
+#-- nedded libs for config to work
+#-- all are pre installed except qtile_extras
+#----------------------------------------------#
 import os
 import subprocess as sp
-from libqtile import bar, layout, widget, hook
+from libqtile import bar, layout, hook, widget, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import KeyChord, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.dgroups import simple_key_binder
+from qtile_extras import widget
+from qtile_extras.widget.decorations import PowerLineDecoration
+#----------------------------------------------#
 
+# __     __         _       _     _           
+# \ \   / /_ _ _ __(_) __ _| |__ | | ___  ___ 
+#  \ \ / / _` | '__| |/ _` | '_ \| |/ _ \/ __|
+#   \ V / (_| | |  | | (_| | |_) | |  __/\__ \
+#    \_/ \__,_|_|  |_|\__,_|_.__/|_|\___||___/
+
+#----------------------------------------------#
 mod = "mod4"
 terminal = guess_terminal()
 font = "JetBrainsMono Nerd Font"
-home = os.path.expanduser('~')
-wifi = os.path.join(home,".local/bin/rofi-wifi-menu")
+home = os.path.expanduser('~') + "/"
+wifi = home + ".local/bin/rofi-wifi-menu"
+startup_script = home +  ".config/qtile/script.sh"
 exit_command = "rofi -show powermenu -theme ~/.local/share/rofi/themes/nord.rasi -modi powermenu:rofi-power-menu"
-def change_kblayout():
-    qtile.cmd_spawn("sh -c ~/.local/bin/switchlang")
 
 colors = {
     "black":"#282a36",
@@ -27,11 +46,22 @@ colors = {
     "purple":"#bd93f9",
     "red":"#ff5555",
     "yellow":"#f1fa8c",
-    "bar":"#44475aB3"
-} #This is the offical dracula theme platte
-  #and please ignore the naming
+    # "bar":"#44475a80"
+    "bar":"#44475a00"
+}
+#-- This is the offical dracula theme platte
+#-- and please ignore the naming
 
+#----------------------------------------------#
 
+#  _  __          ____  _           _ _           
+# | |/ /___ _   _| __ )(_)_ __   __| (_) __ _ ___ 
+# | ' // _ \ | | |  _ \| | '_ \ / _` | |/ _` / __|
+# | . \  __/ |_| | |_) | | | | | (_| | | (_| \__ \
+# |_|\_\___|\__, |____/|_|_| |_|\__,_|_|\__, |___/
+#           |___/                       |___/     
+
+#----------------------------------------------#
 keys = [
     #moving window foucus
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -53,9 +83,11 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
-    #MORE
-    Key([mod, "shift"],"Return",lazy.layout.toggle_split(),desc="Toggle between split and unsplit sides of stack"),
+    #Terminal
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+
+    #Killing a window
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
 
     #floating and fullscreen
     Key([mod],"m", lazy.window.toggle_fullscreen(),desc="Toggle fullscreen"),
@@ -63,7 +95,7 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "shift"],"Return",lazy.layout.toggle_split(),desc="Toggle between split and unsplit sides of stack"),
 
     #qtile
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -71,18 +103,56 @@ keys = [
 
     #rofi 
     Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
+
+    # dropdowns
+    Key([mod], "t", lazy.group['5'].dropdown_toggle("term")),
+    Key([mod], "c", lazy.group['5'].dropdown_toggle("emacs")),
+    Key([mod], "v", lazy.group['5'].dropdown_toggle("files"))
+]
+#----------------------------------------------#
+
+#   ____                           
+#  / ___|_ __ ___  _   _ _ __  ___ 
+# | |  _| '__/ _ \| | | | '_ \/ __|
+# | |_| | | | (_) | |_| | |_) \__ \
+#  \____|_|  \___/ \__,_| .__/|___/
+#                       |_|        
+#-- some call it groups
+#-- and some call it workspaces
+
+#----------------------------------------------#
+# main_groups = [Group(i) for i in "ABCD"] #group names
+# main_groups = [Group(i) for i in "" ] #group icons
+# main_groups = [Group(f"{i+1}", label="󰏃") for i in range(4)]
+main_groups = [Group(f"{i+1}", label="") for i in range(4)]
+
+dropdown_config = {
+    "height" : 0.8,
+    "weidth" : 0.8,
+    "x" : 0.1,
+    "y" : 0.1
+}
+
+groups = [
+    *main_groups,
+    ScratchPad('5',[
+               DropDown('term',"alacritty",**dropdown_config),
+               DropDown('emacs',"emacs",**dropdown_config),
+               DropDown('files',"nautilus",**dropdown_config)
+               ])
 ]
 
-#Groups
-
-# groups = [Group(i) for i in "ABCD"] #group names
-# groups = [Group(i) for i in "" ] #group icons
-groups = [Group(f"{i+1}", label="󰏃") for i in range(4)]
-
-
 dgroups_key_binder = simple_key_binder("mod4") # mod + group num to switch to it
+#----------------------------------------------#
 
-#layouts
+#   _                            _       
+# | |    __ _ _   _  ___  _   _| |_ ___ 
+# | |   / _` | | | |/ _ \| | | | __/ __|
+# | |__| (_| | |_| | (_) | |_| | |_\__ \
+# |_____\__,_|\__, |\___/ \__,_|\__|___/
+#             |___/                     
+
+#----------------------------------------------#
 layout_theme = {
     "border_focus": [colors["purple"]],
     "border_normal": [colors["black"]],
@@ -91,11 +161,34 @@ layout_theme = {
 }
 
 layouts = [
-    layout.RatioTile(**layout_theme),
     layout.Columns(**layout_theme),
+    layout.VerticalTile(**layout_theme),
     layout.Floating(**layout_theme),
+#     layout.Bsp(**layout_theme),
+#     layout.Matrix(**layout_theme),
+#     layout.Max(**layout_theme),
+    # layout.MonadTall(**layout_theme),
+#     layout.MonadThreeCol(**layout_theme),
+#     layout.MonadWide(**layout_theme),
+#     layout.RatioTile(**layout_theme),
+#     layout.Slice(**layout_theme),
+#     layout.Spiral(**layout_theme),
+#     layout.Stack(**layout_theme),
+#     layout.Tile(**layout_theme),
+#     layout.TreeTab(**layout_theme),
+#     layout.Zoomy(**layout_theme),
 ]
+#----------------------------------------------#
 
+# __        ___     _            _       
+# \ \      / (_) __| | __ _  ___| |_ ___ 
+#  \ \ /\ / /| |/ _` |/ _` |/ _ \ __/ __|
+#   \ V  V / | | (_| | (_| |  __/ |_\__ \
+#    \_/\_/  |_|\__,_|\__, |\___|\__|___/
+#                     |___/              
+#-- Things we put in the bar you know ;)
+
+#----------------------------------------------#
 widget_defaults = dict(
     font=font,
     fontsize=14,
@@ -103,42 +196,114 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+powerline = {"decorations": [PowerLineDecoration(path="rounded_left")]}
+powerliner = {"decorations": [PowerLineDecoration(path="rounded_right")]}
+
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.LaunchBar(progs=[(" Apps","rofi -show drun")],foreground=colors["green"]),
-                widget.GroupBox(active=colors["purple"],
-                                inactive=colors["cyan"],
-                                highlight_method='line',
-                                highlight_color=colors["black"],
-                                this_current_screen_border =colors["pink"],),
-                
-                widget.WindowName(format='{name}',max_chars=30,foreground=colors['yellow']),
-
-                widget.Chord(
-                    chords_colors={
-                        "launch": (colors["red"], colors["white"]),
-                    },
-                    name_transform=lambda name: name.upper(),
+                widget.TextBox(
+                    "  ",
+                    fontsize=18,
+                    foreground=colors["black"],
+                    background=colors["orange"],
+                    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn("rofi -show drun")},
+                    **powerline
                 ),
+                widget.GroupBox(
+                    active=colors["purple"],
+                    inactive=colors["cyan"],
+                    highlight_method='line',
+                    highlight_color=colors["black"],
+                    this_current_screen_border =colors["pink"],
+                    background=colors["semi-black"],**powerline
+                ),
+                widget.CurrentLayoutIcon(
+                    use_mask = True,
+                    foreground = colors["white"],
+                    background=colors["pink"],**powerline
+                ),
+                widget.WindowName(
+                    format='{}',
+                    # format='{name}',
+                    max_chars=30,
+                    foreground=colors['yellow'],
+                    background=colors["bar"],**powerliner
+                ),
+                widget.Clock(
+                    format="󰃭 %d-%B %a   %I:%M %p",
+                    foreground=colors["cyan"],
+                    background=colors["purple-sky"],
+                    **powerline
+                ),
+                widget.Spacer(
+                    lenght=700,
+                    background=colors["bar"],**powerliner
+                              ),
+                widget.WidgetBox(
+                    widgets=[
 
-                widget.Clock(format="%I:%M %p %m-%d %a ",foreground=colors["cyan"]),
-                widget.Spacer(lenght=700),
-                # widget.Systray(background=colors["semi-black"]),
-                widget.Sep(),
-                widget.LaunchBar(progs=[("󰤥 ",wifi)],foreground=colors["cyan"]),
-                widget.Sep(),
-                widget.LaunchBar(progs=[("","blueman-manager")],foreground=colors["cyan"]),
-                widget.Sep(),
-                widget.TextBox("󰂁"),
-                widget.Battery(format='{char} {percent:2.0%}',update_interval=1),
-                widget.Sep(),
-                widget.KeyboardLayout(foreground=colors["orange"],update_interval=0.1,
-                                                          mouse_callbacks={"Button1":change_kblayout},), 
-                widget.Sep(),
-                widget.LaunchBar(progs=[("󰿅 exit",exit_command)],foreground=colors["red"]),
-                widget.CurrentLayoutIcon(),
+                        # widget.Systray(background=colors["semi-black"]),
+                        widget.TextBox(
+                            "󰤥 ",
+                            fontsize=18,
+                            mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(wifi)},
+                            foreground=colors["cyan"],
+                            background=colors["purple-sky"]
+                        ),
+                        widget.TextBox(
+                            " ",
+                            fontsize=18,
+                            mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn("blueman-manager")},
+                            foreground=colors["cyan"],
+                            background=colors["purple-sky"]
+                        ),
+                    ],
+                    text_open= "󰦭 ",
+                    text_closed= "󰦬 ",
+                    fontsize=18,
+                    foreground=colors["black"],
+                    background=colors["green"],**powerliner
+                ),
+                widget.Battery(
+                    charge_char= "󰢝",
+                    discharge_char= "󰁿",
+                    full_char= "󱟢",
+                    format='{char} {percent:2.0%}',
+                    update_interval=1,
+                    fontsize=18,
+                    low_percentage=0.2,
+                    low_foreground=colors["red"],
+                    foreground=colors["white"],
+                    background=colors["purple"],
+                ),
+                widget.Backlight(
+                    backlight_name="nvidia_0",  
+                    format="󰃠 {percent:2.0%}",
+                    fontsize=18,
+                    foreground=colors["semi-black"],
+                    background=colors["orange"],**powerliner
+                ),
+                widget.Volume(
+                    fmt="󰕾 {}",
+                    get_volume_command=home + ".config/qtile/volume.sh",
+                    fontsize=18,
+                    foreground=colors["orange"],
+                    background=colors["purple-sky"],**powerliner
+                ),
+                widget.KeyboardLayout(
+                    foreground=colors["semi-black"],
+                    update_interval=0.1,
+                    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(home + ".local/bin/switchlang")},
+                    background=colors["yellow"],**powerliner
+                ),
+                widget.TextBox(
+                    "  ",
+                    fontsize=18,
+                    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(exit_command)},
+                    background=colors["red"],**powerline
+                ),
             ],
             24,
             border_color = colors["bar"],
@@ -148,6 +313,15 @@ screens = [
         ),
     ),
 ]
+#----------------------------------------------#
+
+#  _____ _             _   _             
+# |  ___| | ___   __ _| |_(_)_ __   __ _ 
+# | |_  | |/ _ \ / _` | __| | '_ \ / _` |
+# |  _| | | (_) | (_| | |_| | | | | (_| |
+# |_|   |_|\___/ \__,_|\__|_|_| |_|\__, |
+#                                  |___/ 
+#----------------------------------------------#
 
 # Drag floating layouts.
 mouse = [
@@ -168,32 +342,61 @@ floating_layout = layout.Floating(
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(wm_class="gnome-calculator"),  # Calculator
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
     ]
 )
 auto_fullscreen = True
+auto_minimize = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
+#----------------------------------------------#
 
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
-
-# When using the Wayland backend, this can be used to configure input devices.
-wl_input_rules = None
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "LG3D"
-
+#  ____  _             _               
+# / ___|| |_ __ _ _ __| |_ _   _ _ __  
+# \___ \| __/ _` | '__| __| | | | '_ \ 
+#  ___) | || (_| | |  | |_| |_| | |_) |
+# |____/ \__\__,_|_|   \__|\__,_| .__/ 
+#                               |_|    
+#----------------------------------------------#
 @hook.subscribe.startup_once
 def autostart():
-    script =  os.path.expanduser('~/.config/qtile/script.sh')
-    sp.Popen([script])
+    sp.Popen([startup_script])
+#----------------------------------------------#
+
+#  __  __                
+# |  \/  | ___  _ __ ___ 
+# | |\/| |/ _ \| '__/ _ \
+# | |  | | (_) | | |  __/
+# |_|  |_|\___/|_|  \___|
+#-- using dropdown in fullscreen mode
+#-- some stuff that is important.... i guess !?
+
+#----------------------------------------------#
+@hook.subscribe.client_focus
+def bring_focus_to_front(window):
+    current_wid = window.info()["id"]
+    if current_wid in bring_focus_to_front.fullscreen_to_restore:
+        for wid in bring_focus_to_front.fullscreen_to_restore:
+            qtile.select([("window", wid)]).cmd_enable_fullscreen()
+            bring_focus_to_front.fullscreen_to_restore.remove(wid)
+    elif not window.info()["fullscreen"]:
+        all_group_windows = qtile.select(
+            [("group", window.group.name)]
+        ).windows
+        for group_window in all_group_windows:
+            if group_window.info()["fullscreen"]:
+                wid = group_window.info()["id"]
+                qtile.select([("window", wid)]).cmd_disable_fullscreen()
+                bring_focus_to_front.fullscreen_to_restore.append(wid)
+
+bring_focus_to_front.fullscreen_to_restore = []
+#----------------------------------------------#
+
+# this can be used to configure input devices for wayland.
+wl_input_rules = None
+
+# i dont know what is this thing ;)
+wmname = "LG3D"
+#----------------------------------------------#

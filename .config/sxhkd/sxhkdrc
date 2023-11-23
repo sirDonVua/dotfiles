@@ -8,7 +8,7 @@ alt + space
     copyq show
 
 super + Delete
-    rofi -show powermenu -theme ~/.local/share/rofi/themes/nord.rasi -modi powermenu:rofi-power-menu &
+    rofi -show powermenu -theme ~/.config/rofi/logout.rasi -modi powermenu:rofi-power-menu &
 
 super + BackSpace
       betterlockscreen -l
@@ -17,6 +17,9 @@ super + BackSpace
 
 XF86Audio{Raise,Lower}Volume
 	$HOME/.local/bin/changevolume {up,down}
+	
+XF86MonBrightness{Up,Down}
+	$HOME/.local/bin/changebrightness {up,down}
 
 XF86AudioMute
 	$HOME/.local/bin/changevolume mute

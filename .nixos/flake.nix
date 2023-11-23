@@ -13,6 +13,9 @@
       lib = nixpkgs.lib;
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      user = "vex";
+      gui = "window-managers";
+      vid = "nvidia";
     in {
 
       nixosConfigurations = {
@@ -21,14 +24,18 @@
           modules = [
             ./modules/nixos/default.nix
             ./modules/packages/base.nix
-            ./modules/video-driver/nvidia.nix
-            ./modules/packages/window-managers.nix
+            ./modules/video-driver/${vid}.nix
+            ./modules/packages/${gui}.nix
           ];
+          specialArgs = {
+            inherit system;
+            inherit user;
+          };
         };
       };
 
       homeConfigurations = {
-        vex = home-manager.lib.homeManagerConfiguration {
+        ${user} = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./modules/home-manager/home.nix ];
         };

@@ -28,6 +28,25 @@
     nord14:    #a3be8c;
     nord15:    #b48ead;
 
+ nord0: #282936;
+ nord1:	#3a3c4e;
+ nord2:	#4d4f68;
+ nord3:	#626483;
+ nord4:	#e9e9f4;
+ nord5:	#f1f2f8;
+ nord6:	#f7f7fb;
+ nord7:	#62d6e8;
+ nord8:	#b45bcf;
+ nord9:	#ea51b2;
+ nord10:#00f769;
+ nord11:#ebff87;
+ nord12:#a1efe4;
+ nord13:#62d6e8;
+ nord14:#b45bcf;
+ nord15:#00f769;
+ 
+
+
     background-color:   transparent;
     text-color:         @nord4;
     accent-color:       @nord8;
@@ -43,7 +62,7 @@ window {
 
     location:   center;
     width:      480px;
-    border:     1px;
+    border:     4px;
 }
 
 inputbar {

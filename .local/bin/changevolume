@@ -6,23 +6,22 @@ notify() {
 
     case $1 in
 	"up")
-	    dunstify -u low -r "0001" -i "$up" -h int:value:$volume "volume: $volume%" -t 1000
+	    dunstify -u low -r "0001" -I "$up" -h int:value:$volume "volume: $volume%" -t 1000
 
 	    ;;
 	"down")
-	    dunstify -u low -r "0001" -i "$down" -h int:value:$volume "volume: $volume%" -t 1000
+	    dunstify -u low -r "0001" -I "$down" -h int:value:$volume "volume: $volume%" -t 1000
 	    ;;
 	"mute")
-	    dunstify -u low -r "0001" -i "$mute" -h int:value:$volume "volume: $volume%" -t 1000
+	    dunstify -u low -r "0001" -I "$mute" -h int:value:$volume "volume: $volume%" -t 1000
     esac
     
 }
 
-dir="$(dirname $0)"
-path="$dir/../data/icons"
-up="$path/volume-up.svg"    
-down="$path/volume-down.svg"
-mute="$path/volume-mute.svg"
+path="$(dirname $0)/../data/icons"
+up="$path/volume-up"    
+down="$path/volume-down"
+mute="$path/volume-mute"
 
 case $1 in
     "up")
