@@ -94,7 +94,6 @@ fonts = {
 
     #programming
     python3Full
-    nodejs
     gnumake
     cmake
     pyright
@@ -104,7 +103,6 @@ fonts = {
     nix-index
     xorg.xev
     libtool
-    vulkan-tools
 
     # Drawing
     opentabletdriver
@@ -114,8 +112,5 @@ fonts = {
     # appimages
     appimage-run
 
-    # battrey
-    powertop
-    cpupower-gui
   ];
 }

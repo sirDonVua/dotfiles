@@ -1,0 +1,97 @@
+* {
+    font:   "JetBrainsMono 12";
+
+ nord0: #28293680;
+ nord1:	#3a3c4e;
+ nord2:	#4d4f68;
+ nord3:	#626483;
+ nord4:	#e9e9f4;
+ nord5:	#f1f2f8;
+ nord6:	#f7f7fb;
+ nord7:	#62d6e8;
+ nord8:	#b45bcf;
+ nord9:	#ea51b2;
+ nord10:#00f769;
+ nord11:#ebff87;
+ nord12:#a1efe4;
+ nord13:#62d6e8;
+ nord14:#b45bcf;
+ nord15:#00f769;
+ 
+
+
+    background-color:   transparent;
+    text-color:         @nord7;
+    accent-color:       @nord14;
+
+    margin:     0px;
+    padding:    0px;
+    spacing:    0px;
+}
+
+window {
+    background-color:   @nord0;
+    border-color:       @nord1;
+
+    location:   center;
+    width:      480px;
+    border:     4px;
+}
+
+inputbar {
+    padding:    8px 12px;
+    spacing:    12px;
+    children:   [ prompt, entry ];
+}
+
+prompt, entry, element-text, element-icon {
+    vertical-align: 0.5;
+}
+
+prompt {
+    text-color: @accent-color;
+}
+
+listview {
+    lines:      8;
+    columns:    1;
+
+    fixed-height:   false;
+}
+
+element {
+    padding:    8px;
+    spacing:    8px;
+}
+
+element normal urgent {
+    text-color: @nord14;
+}
+
+element normal active {
+    text-color: @accent-color;
+}
+
+element selected {
+    text-color: @nord5;
+}
+
+element selected normal {
+    background-color:   @accent-color;
+}
+
+element selected urgent {
+    background-color:   @nord13;
+}
+
+element selected active {
+    background-color:   @nord8;
+}
+
+element-icon {
+    size:   0.75em;
+}
+
+element-text {
+    text-color: inherit;
+}

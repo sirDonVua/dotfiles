@@ -1,0 +1,38 @@
+* {
+    font:            "JetBrainsMono Nerd Font 12";
+    text-color: #8be9fd;
+    background-color: #44475a;
+}
+window {
+    anchor:     north;
+    location:   north;
+    width:      97%;
+    padding:    4px;
+    margin:     3 3px 3 3 ;
+    children:   [ horibox ];
+}
+horibox {
+    orientation: horizontal;
+    children:   [ prompt, entry, listview ];
+}
+listview {
+    layout:     horizontal;
+    spacing:    5px;
+    lines:      100;
+}
+entry {
+    expand:     false;
+    width:      10em;
+}
+element {
+    padding: 0px 2px;
+}
+element selected {
+    text-color:#f8f8f2;
+    background-color: #bd93f9	;
+}
+
+element-text, element-icon {
+  background-color: inherit;
+  text-color: inherit;
+}
